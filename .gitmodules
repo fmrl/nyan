@@ -1,0 +1,3 @@
+[submodule "cmake"]
+	path = cmake
+	url = /home/zoarre/work/fmrl.cmake
