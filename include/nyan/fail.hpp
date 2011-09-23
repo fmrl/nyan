@@ -3,6 +3,7 @@
 
 #include <nyan/fail/empty_fail.hpp>
 #include <nyan/fail/null_fail.hpp>
+#include <nyan/fail/not_found_fail.hpp>
 
 #include <nyan/fail/fail_meta.hpp>
 

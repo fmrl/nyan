@@ -1,12 +1,11 @@
 #include <nyan/fail/not_found_fail.hpp>
 
-#include <nyan/fail/empty_fail.hpp>
-#include <nyan/fail/fail_meta.hpp>
+#include <nyan/fail.hpp>
 
 namespace nyan
 {
 
-const std::string not_found_fail::our_search_term_attribute("search_term");
+const std::string not_found_fail::our_search_term_field("search_term");
 const std::string not_found_fail::our_summary(
       "my search for \"${search_term}\" failed unexpectedly at ${where}.");
 
@@ -31,7 +30,7 @@ void not_found_fail::initialize(const char *searchterm_arg)
 {
    NYAN_FAIL_IFEMPTY(searchterm_arg);
 
-   sto(our_search_term_attribute, searchterm_arg);
+   sto(our_search_term_field, searchterm_arg);
 }
 
 }

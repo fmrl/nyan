@@ -3,7 +3,7 @@
 namespace nyan
 {
 
-const std::string null_fail::our_variable_name_attribute("variable_name");
+const std::string null_fail::our_variable_name_field("variable_name");
 const std::string null_fail::our_summary(
          "i unexpectedly encountered a pointer variable (${variable_name}) "
          "that contains a NULL value at ${where}.");
@@ -28,9 +28,9 @@ null_fail::~null_fail() throw()
 void null_fail::initialize(const char *variable_arg)
 {
    // a panic is necessary here to avoid infinite recursion.
-   NYAN_PANIC_IFNULL(variable_arg);
+   NYAN_PANIC_IFEMPTY(variable_arg);
 
-   sto(our_variable_name_attribute, variable_arg);
+   sto(our_variable_name_field, variable_arg);
 }
 
 }

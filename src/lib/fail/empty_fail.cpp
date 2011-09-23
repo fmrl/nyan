@@ -2,7 +2,7 @@
 
 namespace nyan
 {
-const std::string empty_fail::our_variable_name_attribute("variable_name");
+const std::string empty_fail::our_variable_name_field("variable_name");
 const std::string empty_fail::our_what_message(
       "i unexpectedly encountered an empty collection (${variable_name}) "
       "at ${where}.");
@@ -26,9 +26,9 @@ empty_fail::~empty_fail() throw()
 
 void empty_fail::initialize(const char *variable_arg)
 {
-   NYAN_FAIL_IFNULL(variable_arg);
+   NYAN_FAIL_IFEMPTY(variable_arg);
 
-   sto(our_variable_name_attribute, variable_arg);
+   sto(our_variable_name_field, variable_arg);
 }
 
 bool empty_fail::check(const char *str_arg)

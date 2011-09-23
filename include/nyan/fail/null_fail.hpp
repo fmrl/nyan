@@ -12,7 +12,7 @@ class null_fail :
 {
 private:
 
-   static const std::string our_variable_name_attribute;
+   static const std::string our_variable_name_field;
    static const std::string our_summary;
 
 public:
