@@ -23,4 +23,12 @@
    } \
    while (0)
 
+#define NYAN_FAIL_IFZERO(Value) \
+   do \
+   { \
+      if (::nyan::zero_fail::check(Value)) \
+         throw ::nyan::zero_fail(NYAN_HERE(), #Value); \
+   } \
+   while (0)
+
 #endif // NYAN_FAIL_META_HPP_IS_INCLUDED

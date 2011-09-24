@@ -2,8 +2,6 @@
 #define NYAN_EMPTY_FAIL_HPP_IS_INCLUDED
 
 #include <nyan/fail/fail_base.hpp>
-#include <nyan/fail/null_fail.hpp>
-#include <nyan/fail/fail_meta.hpp>
 
 namespace nyan
 {
@@ -13,15 +11,15 @@ class empty_fail :
 {
 private:
 
-   static const std::string our_variable_name_field;
-   static const std::string our_what_message;
+   static const std::string our_identifier_field;
+   static const std::string our_summary;
 
 public:
 
    empty_fail(const source_coordinate &where_arg,
-         const std::string &variable_arg);
+         const std::string &identifier_arg);
    empty_fail(const source_coordinate &where_arg,
-         const char *variable_arg);
+         const char *identifier_arg);
 
    virtual ~empty_fail() throw();
 
@@ -35,7 +33,7 @@ public:
 
 private:
 
-   void initialize(const char *variable_arg);
+   void initialize(const char *identifier_arg);
 
 };
 

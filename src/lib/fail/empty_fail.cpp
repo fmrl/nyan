@@ -1,34 +1,36 @@
 #include <nyan/fail/empty_fail.hpp>
 
+#include <nyan/fail.hpp>
+
 namespace nyan
 {
-const std::string empty_fail::our_variable_name_field("variable_name");
-const std::string empty_fail::our_what_message(
-      "i unexpectedly encountered an empty collection (${variable_name}) "
+const std::string empty_fail::our_identifier_field("identifier");
+const std::string empty_fail::our_summary(
+      "i unexpectedly encountered an empty collection (${identifier}) "
       "at ${where}.");
 
 empty_fail::empty_fail(const source_coordinate &where_arg,
-      const std::string &variable_arg) :
-   fail(where_arg, our_what_message)
+      const std::string &identifier_arg) :
+   fail(where_arg, our_summary)
 {
-   initialize(variable_arg.c_str());
+   initialize(identifier_arg.c_str());
 }
 
 empty_fail::empty_fail(const source_coordinate &where_arg,
-      const char *variable_arg) :
-   fail(where_arg, our_what_message)
+      const char *identifier_arg) :
+   fail(where_arg, our_summary)
 {
-   initialize(variable_arg);
+   initialize(identifier_arg);
 }
 
 empty_fail::~empty_fail() throw()
 {}
 
-void empty_fail::initialize(const char *variable_arg)
+void empty_fail::initialize(const char *identifier_arg)
 {
-   NYAN_FAIL_IFEMPTY(variable_arg);
+   NYAN_FAIL_IFEMPTY(identifier_arg);
 
-   sto(our_variable_name_field, variable_arg);
+   sto(our_identifier_field, identifier_arg);
 }
 
 bool empty_fail::check(const char *str_arg)

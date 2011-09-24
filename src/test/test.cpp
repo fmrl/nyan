@@ -6,9 +6,9 @@ int main()
 {
    try
    {
-      int *x = NULL;
+      int x = 0;
 
-      NYAN_FAIL_IFNULL(x);
+      NYAN_FAIL_IFZERO(x);
    }
    catch (const std::exception &e)
    {

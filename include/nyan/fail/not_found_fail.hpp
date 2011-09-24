@@ -2,7 +2,6 @@
 #define NYAN_NOT_FOUND_FAIL_HPP_IS_INCLUDED
 
 #include <nyan/fail/fail_base.hpp>
-#include <nyan/panic.hpp>
 
 namespace nyan
 {

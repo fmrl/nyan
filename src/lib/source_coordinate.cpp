@@ -1,4 +1,5 @@
 #include <nyan/source_coordinate.hpp>
+
 #include <nyan/fail.hpp>
 
 namespace nyan
@@ -10,7 +11,7 @@ source_coordinate::source_coordinate(const char *filen_arg,
    my_lineno(lineno_arg)
 {
    NYAN_FAIL_IFEMPTY(filen_arg);
-   // [todo] NYAN_FAIL_IFZERO(lineno_arg);
+   NYAN_FAIL_IFZERO(lineno_arg);
 }
 
 void source_coordinate::print_friendly(std::ostream &out_arg) const

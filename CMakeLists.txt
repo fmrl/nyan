@@ -54,6 +54,7 @@ add_library(nyan
 	include/nyan/fail/fail_record.hpp
 	include/nyan/fail/not_found_fail.hpp
 	include/nyan/fail/null_fail.hpp
+	include/nyan/fail/zero_fail.hpp
 	include/nyan/panic.hpp
 	include/nyan/ptr.hpp
 	include/nyan/ptr/const_maybe_ptr.hpp
@@ -68,6 +69,7 @@ add_library(nyan
 	src/lib/fail/fail_record.cpp
 	src/lib/fail/not_found_fail.cpp
 	src/lib/fail/null_fail.cpp
+	src/lib/fail/zero_fail.cpp
 	src/lib/panic.cpp
 	src/lib/ptr/ptr_base.cpp
 	src/lib/source_coordinate.cpp

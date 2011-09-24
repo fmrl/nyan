@@ -1,12 +1,12 @@
-#ifndef NYAN_NULL_FAIL_HPP_IS_INCLUDED
-#define NYAN_NULL_FAIL_HPP_IS_INCLUDED
+#ifndef NYAN_ZERO_FAIL_HPP_IS_INCLUDED
+#define NYAN_ZERO_FAIL_HPP_IS_INCLUDED
 
 #include <nyan/fail/fail_base.hpp>
 
 namespace nyan
 {
 
-class null_fail :
+class zero_fail :
    public fail
 {
 private:
@@ -16,17 +16,17 @@ private:
 
 public:
 
-   null_fail(const source_coordinate &where_arg,
+   zero_fail(const source_coordinate &where_arg,
          const std::string &identifier_arg);
-   null_fail(const source_coordinate &where_arg,
+   zero_fail(const source_coordinate &where_arg,
          const char *identifier_arg);
 
-   virtual ~null_fail() throw();
+   virtual ~zero_fail() throw();
 
    template < class T >
-   static bool check(const T *ptr_arg)
+   static bool check(T ptr_arg)
    {
-      return NULL == ptr_arg;
+      return 0 == ptr_arg;
    }
 
 private:
@@ -38,4 +38,4 @@ private:
 }
 
 
-#endif /* NYAN_NULL_FAIL_HPP_IS_INCLUDED */
+#endif /* NYAN_ZERO_FAIL_HPP_IS_INCLUDED */
