@@ -1,4 +1,4 @@
-# This file is part of the *fmrl* project at <http://fmrl.org>.
+# This file is part of the *nyan* project at <http://fmrl.org>.
 # Copyright (c) 2011, Michael Lowell Roberts.
 # All rights reserved.
 #
