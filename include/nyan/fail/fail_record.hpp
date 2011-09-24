@@ -2,6 +2,7 @@
 #define NYAN_FAIL_RECORD_HPP_IS_INCLUDED
 
 #include <nyan/source_coordinate.hpp>
+#include <nyan/ptr.hpp>
 #include <boost/regex.hpp>
 #include <string>
 #include <sstream>
@@ -11,7 +12,8 @@
 namespace nyan
 {
 
-class fail_record
+class fail_record :
+   public reference_counted_object
 {
 private:
 

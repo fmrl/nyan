@@ -1,11 +1,13 @@
 #ifndef NYAN_FAIL_BASE_HPP_IS_INCLUDED
 #define NYAN_FAIL_BASE_HPP_IS_INCLUDED
 
-#include <nyan/source_coordinate.hpp>
 #include <nyan/fail/fail_record.hpp>
-#include <string>
+#include <nyan/ptr.hpp>
+#include <nyan/source_coordinate.hpp>
+
 #include <exception>
 #include <map>
+#include <string>
 
 namespace nyan
 {
@@ -13,9 +15,14 @@ namespace nyan
 class fail :
    public std::exception
 {
+public:
+
+   typedef const_surely_ptr< fail_record > const_record_ptr_type;
+   typedef surely_ptr< fail_record > record_ptr_type;
+
 private:
 
-   fail_record my_record;
+   record_ptr_type my_record;
    mutable std::string my_what_cache;
 
 protected:
@@ -31,12 +38,12 @@ public:
 
    virtual const char * what() const throw();
 
-   const fail_record & record() const
+   const_record_ptr_type record() const
    {
       return my_record;
    }
 
-   fail_record & record()
+   record_ptr_type record()
    {
       return my_record;
    }
@@ -44,7 +51,7 @@ public:
    template < class Value >
    fail & sto(const std::string &name_arg, const Value &value_arg)
    {
-      my_record.sto(name_arg, value_arg);
+      my_record->sto(name_arg, value_arg);
       return *this;
    }
 

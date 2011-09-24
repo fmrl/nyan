@@ -46,6 +46,7 @@ include_directories(
 include_directories(${Boost_INCLUDE_DIRS})
 
 add_library(nyan
+	include/nyan/atomic_integer.hpp
 	include/nyan/fail.hpp
 	include/nyan/fail/empty_fail.hpp
 	include/nyan/fail/fail_base.hpp
@@ -54,6 +55,13 @@ add_library(nyan
 	include/nyan/fail/not_found_fail.hpp
 	include/nyan/fail/null_fail.hpp
 	include/nyan/panic.hpp
+	include/nyan/ptr.hpp
+	include/nyan/ptr/const_maybe_ptr.hpp
+	include/nyan/ptr/const_surely_ptr.hpp
+	include/nyan/ptr/maybe_ptr.hpp
+	include/nyan/ptr/ptr_base.hpp
+	include/nyan/ptr/reference_counted_object.hpp
+	include/nyan/ptr/surely_ptr.hpp
 	include/nyan/source_coordinate.hpp
 	src/lib/fail/empty_fail.cpp
 	src/lib/fail/fail_base.cpp
@@ -61,6 +69,7 @@ add_library(nyan
 	src/lib/fail/not_found_fail.cpp
 	src/lib/fail/null_fail.cpp
 	src/lib/panic.cpp
+	src/lib/ptr/ptr_base.cpp
 	src/lib/source_coordinate.cpp
 	)
 

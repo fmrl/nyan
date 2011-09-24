@@ -7,14 +7,14 @@ namespace nyan
 
 fail::fail(const source_coordinate &where_arg,
       const std::string &summary_arg) :
-      my_record(where_arg, summary_arg)
+      my_record(new fail_record(where_arg, summary_arg))
 {
    initialize();
 }
 
 fail::fail(const source_coordinate &where_arg,
       const char *summary_arg) :
-      my_record(where_arg, summary_arg)
+      my_record(new fail_record(where_arg, summary_arg))
 {
    initialize();
 }
@@ -42,34 +42,34 @@ const char * fail::what() const throw()
 
 void fail::initialize()
 {
-   my_record.type(this);
+   my_record->type(this);
 }
 
 fail & fail::summary(const std::string &text_arg)
 {
-   my_record.summary(text_arg);
+   my_record->summary(text_arg);
    return *this;
 }
 
 void fail::print_summary(std::ostream &out_arg) const
 {
-   return my_record.print_summary(out_arg);
+   return my_record->print_summary(out_arg);
 }
 
 fail & fail::where(const source_coordinate &where_arg)
 {
-   my_record.where(where_arg);
+   my_record->where(where_arg);
    return *this;
 }
 
 void fail::print_where(std::ostream &out_arg) const
 {
-   return my_record.print_where(out_arg);
+   return my_record->print_where(out_arg);
 }
 
 void fail::print_type(std::ostream &out_arg) const
 {
-   return my_record.print_type(out_arg);
+   return my_record->print_type(out_arg);
 }
 
 }
