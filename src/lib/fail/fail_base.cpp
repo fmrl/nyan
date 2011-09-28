@@ -34,6 +34,7 @@
 #include <nyan/fail/fail_base.hpp>
 
 #include <nyan/fail.hpp>
+#include <nyan/backtrace.hpp>
 
 namespace nyan
 {
@@ -76,6 +77,7 @@ const char * fail::what() const throw()
 void fail::initialize()
 {
    my_record->type(this);
+   my_record->backtrace(::nyan::backtrace());
 }
 
 fail & fail::summary(const std::string &text_arg)
@@ -103,6 +105,17 @@ void fail::print_where(std::ostream &out_arg) const
 void fail::print_type(std::ostream &out_arg) const
 {
    return my_record->print_type(out_arg);
+}
+
+fail & fail::backtrace(const std::string &text_arg)
+{
+   my_record->summary(text_arg);
+   return *this;
+}
+
+void fail::print_backtrace(std::ostream &out_arg) const
+{
+   return my_record->print_backtrace(out_arg);
 }
 
 }

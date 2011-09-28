@@ -96,6 +96,8 @@ public:
    fail & where(const source_coordinate &where_arg);
    void print_where(std::ostream &out_arg) const;
    void print_type(std::ostream &out_arg) const;
+   fail & backtrace(const std::string &text_arg);
+   void print_backtrace(std::ostream &out_arg) const;
 
 private:
 

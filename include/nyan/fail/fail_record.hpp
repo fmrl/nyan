@@ -34,12 +34,15 @@
 #ifndef NYAN_FAIL_RECORD_HPP_IS_INCLUDED
 #define NYAN_FAIL_RECORD_HPP_IS_INCLUDED
 
-#include <nyan/source_coordinate.hpp>
+#include <nyan/backtrace.hpp>
 #include <nyan/ptr.hpp>
+#include <nyan/source_coordinate.hpp>
+
 #include <boost/regex.hpp>
-#include <string>
-#include <sstream>
+
 #include <map>
+#include <sstream>
+#include <string>
 #include <typeinfo>
 
 namespace nyan
@@ -63,6 +66,7 @@ public:
    static const std::string our_type_field;
    static const std::string our_summary_field;
    static const std::string our_where_field;
+   static const std::string our_backtrace_field;
 
    fail_record(const source_coordinate &where_arg,
          const std::string &summary_arg);
@@ -126,6 +130,11 @@ public:
    }
    const std::string & type() const;
    void print_type(std::ostream &out_arg) const;
+
+   void backtrace(const std::string &backtrace_arg);
+   void backtrace(const ::nyan::backtrace &backtrace_arg);
+   const std::string & backtrace() const;
+   void print_backtrace(std::ostream &out_arg) const;
 
 private:
 

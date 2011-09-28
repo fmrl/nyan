@@ -35,17 +35,23 @@
 
 #include <iostream>
 
+void foo()
+{
+   int x = 0;
+
+   NYAN_FAIL_IFZERO(x);
+}
+
 int main()
 {
    try
    {
-      int x = 0;
-
-      NYAN_FAIL_IFZERO(x);
+      foo();
    }
-   catch (const std::exception &e)
+   catch (const nyan::fail &e)
    {
-      std::cerr << e.what();
+      std::cerr << e.what() << "\n";
+      e.print_backtrace(std::cerr);
    }
 
    return 0;

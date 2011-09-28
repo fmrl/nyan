@@ -48,6 +48,7 @@ const fail_record::regex_type
 const std::string fail_record::our_type_field("type");
 const std::string fail_record::our_summary_field("summary");
 const std::string fail_record::our_where_field("where");
+const std::string fail_record::our_backtrace_field("backtrace");
 
 fail_record::fail_record(const source_coordinate &where_arg,
       const std::string &summary_arg)
@@ -179,6 +180,26 @@ const std::string & fail_record::type() const
 void fail_record::print_type(std::ostream &out_arg) const
 {
    print(out_arg, our_type_field);
+}
+
+void fail_record::backtrace(const std::string &backtrace_arg)
+{
+   sto(our_backtrace_field, backtrace_arg);
+}
+
+void fail_record::backtrace(const ::nyan::backtrace &backtrace_arg)
+{
+   sto(our_backtrace_field, backtrace_arg);
+}
+
+const std::string & fail_record::backtrace() const
+{
+   return rcl(our_backtrace_field);
+}
+
+void fail_record::print_backtrace(std::ostream &out_arg) const
+{
+   out_arg << backtrace();
 }
 
 }

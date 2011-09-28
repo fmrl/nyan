@@ -32,6 +32,25 @@
 cmake_minimum_required(VERSION 2.6)
 project(nyan)
 
+include(cmake/cache.cmake)
+
+# toolchain configuration
+# -----------------------
+if(CMAKE_COMPILER_IS_GNUCC)
+	# -Wmissing-braces and -Wmissing-field-initializers appears
+	# to interfere with C89-defined behavior.
+	# "-rdynamic" tells the linker to put all symbols into the symbol
+	# table.
+	set(DEFAULT_CFLAGS "-rdynamic -Wall -Wextra -Wno-missing-braces -Wno-missing-field-initializers")
+elseif(MSVC)
+	# C4127 pops up every time a "do {} while (0)" is used.
+	set(DEFAULT_CFLAGS "/W4 /wd4127")
+else()
+	message(WARNING "i don't know how to configure CMAKE_C_FLAGS for this compiler.")
+endif()
+set_cache_builtin(STRING CMAKE_C_FLAGS ${DEFAULT_CFLAGS})
+set_cache_builtin(STRING CMAKE_CXX_FLAGS ${DEFAULT_CFLAGS})
+
 find_package(Threads REQUIRED)
 
 include(cmake/boost.cmake)
@@ -47,6 +66,7 @@ include_directories(${Boost_INCLUDE_DIRS})
 
 add_library(nyan
 	include/nyan/atomic_integer.hpp
+	include/nyan/backtrace.hpp
 	include/nyan/fail.hpp
 	include/nyan/fail/empty_fail.hpp
 	include/nyan/fail/fail_base.hpp
@@ -64,6 +84,7 @@ add_library(nyan
 	include/nyan/ptr/reference_counted_object.hpp
 	include/nyan/ptr/surely_ptr.hpp
 	include/nyan/source_coordinate.hpp
+	src/lib/backtrace.cpp
 	src/lib/fail/empty_fail.cpp
 	src/lib/fail/fail_base.cpp
 	src/lib/fail/fail_record.cpp
