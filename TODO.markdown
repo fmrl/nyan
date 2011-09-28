@@ -1,11 +1,13 @@
 todo list for nyan
 ==================
 
-- add backtraces to nyan::fail.
-- implement logging system.
+- yaml formatted dumps of exceptions.
+- exception policy class.
+- numeric casts.
 - abstract the string macro code into a separate class.
+- implement logging system.
 - implement a flyweight class.
-- implement nyan::allocator
 - windows port
   - cow strings
   - wchar_t support
+- implement nyan::allocator
