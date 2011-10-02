@@ -35,6 +35,8 @@
 
 #include <iostream>
 
+#include <yaml-cpp/yaml.h>
+
 void foo()
 {
    int x = 0;
@@ -50,8 +52,10 @@ int main()
    }
    catch (const nyan::fail &e)
    {
-      std::cerr << e.what() << "\n";
-      e.print_backtrace(std::cerr);
+      YAML::Emitter y;
+      y << e;
+      // [todo] the emitter state could be bad here.
+      std::cerr << y.c_str();
    }
 
    return 0;

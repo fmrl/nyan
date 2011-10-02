@@ -35,6 +35,9 @@
 
 #include <nyan/fail.hpp>
 
+#include <boost/foreach.hpp>
+#include <boost/tokenizer.hpp>
+
 namespace nyan
 {
 
@@ -201,5 +204,41 @@ void fail_record::print_backtrace(std::ostream &out_arg) const
 {
    out_arg << backtrace();
 }
+
+#if NYAN_CAN_HAS_YAML
+void fail_record::emit_yaml(YAML::Emitter &out_arg) const
+{
+   out_arg << YAML::BeginMap;
+   BOOST_FOREACH(const fields_type::value_type &i, my_fields)
+   {
+      out_arg << YAML::Key << i.first;
+      out_arg << YAML::Value;
+
+      // i'll convert strings to sequences of strings, using newlines
+      // as a separator. if there's no newlines, then i'll emit a simple
+      // scalar.
+      if (std::string::npos == i.second.find('\n'))
+         out_arg << i.second;
+      else
+      {
+         boost::char_separator< char > delim("\n");
+         boost::tokenizer< boost::char_separator< char > >
+            tokens(i.second, delim);
+         out_arg << YAML::BeginSeq;
+         BOOST_FOREACH(const std::string &s, tokens)
+         {
+            out_arg << s;
+         }
+         out_arg << YAML::EndSeq;
+      }
+   }
+   out_arg << YAML::EndMap;
+}
+
+void fail_record::emit(YAML::Emitter &out_arg) const
+{
+   emit_yaml(out_arg);
+}
+#endif //CAN_HAS_YAML
 
 }

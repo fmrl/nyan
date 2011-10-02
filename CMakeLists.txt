@@ -56,6 +56,11 @@ find_package(Threads REQUIRED)
 include(cmake/boost.cmake)
 find_boost(1.42.0 REQUIRED COMPONENTS thread regex)
 
+include(cmake/yaml-cpp.cmake)
+
+include(cmake/config.cmake)
+generate_config_header(nyan)
+
 # include directory search path
 include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -97,5 +102,5 @@ add_library(nyan
 	)
 
 add_executable(test src/test/test.cpp)
-target_link_libraries(test nyan ${Boost_LIBRARIES})
+target_link_libraries(test nyan ${Boost_LIBRARIES} ${YAMLCPP_LIBRARY})
 

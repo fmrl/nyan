@@ -38,6 +38,11 @@
 #include <nyan/ptr.hpp>
 #include <nyan/source_coordinate.hpp>
 
+#include <nyan/config.h>
+#if NYAN_CAN_HAS_YAML
+#     include <yaml-cpp/yaml.h>
+#endif // NYAN_CAN_HAS_YAMLCPP
+
 #include <boost/regex.hpp>
 
 #include <map>
@@ -135,6 +140,11 @@ public:
    void backtrace(const ::nyan::backtrace &backtrace_arg);
    const std::string & backtrace() const;
    void print_backtrace(std::ostream &out_arg) const;
+
+#if NYAN_CAN_HAS_YAML
+   void emit_yaml(YAML::Emitter &out_arg) const;
+   void emit(YAML::Emitter &out_arg) const;
+#endif
 
 private:
 

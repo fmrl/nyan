@@ -99,11 +99,20 @@ public:
    fail & backtrace(const std::string &text_arg);
    void print_backtrace(std::ostream &out_arg) const;
 
+#if NYAN_CAN_HAS_YAML
+   void emit_yaml(YAML::Emitter &out_arg) const;
+   void emit(YAML::Emitter &out_arg) const;
+#endif
+
 private:
 
    void initialize();
 
 };
+
+#if NYAN_CAN_HAS_YAML
+YAML::Emitter & operator<<(YAML::Emitter &out_arg, const fail &fail_arg);
+#endif
 
 }
 

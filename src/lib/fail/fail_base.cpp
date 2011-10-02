@@ -118,4 +118,27 @@ void fail::print_backtrace(std::ostream &out_arg) const
    return my_record->print_backtrace(out_arg);
 }
 
+#if NYAN_CAN_HAS_YAML
+
+void fail::emit_yaml(YAML::Emitter &out_arg) const
+{
+   std::ostringstream msg;
+   print_summary(msg);
+   out_arg << YAML::Comment(msg.str());
+   my_record->emit_yaml(out_arg);
+}
+
+void fail::emit(YAML::Emitter &out_arg) const
+{
+   emit_yaml(out_arg);
+}
+
+YAML::Emitter & operator<<(YAML::Emitter &out_arg, const fail &fail_arg)
+{
+   fail_arg.emit_yaml(out_arg);
+   return out_arg;
+}
+
+#endif //CAN_HAS_YAML
+
 }
