@@ -34,7 +34,8 @@
 #ifndef NYAN_FAIL_RECORD_HPP_IS_INCLUDED
 #define NYAN_FAIL_RECORD_HPP_IS_INCLUDED
 
-#include <nyan/backtrace.hpp>
+#include <nyan/debug.hpp>
+#include <nyan/panic.hpp>
 #include <nyan/ptr.hpp>
 #include <nyan/source_coordinate.hpp>
 
@@ -111,7 +112,10 @@ public:
    template < class Object >
    void sto_typename(const std::string &name_arg, const Object *ptr_arg)
    {
-      return sto_string(name_arg, typeid(ptr_arg).name());
+      demangle f;
+      std::string s;
+      NYAN_PANIC_IF(!f(s, typeid(*ptr_arg).name()));
+      return sto_string(name_arg, s);
    }
 
    const std::string & rcl(const std::string &name_arg) const;

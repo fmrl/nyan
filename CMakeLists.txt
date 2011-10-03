@@ -71,7 +71,9 @@ include_directories(${Boost_INCLUDE_DIRS})
 
 add_library(nyan
 	include/nyan/atomic_integer.hpp
-	include/nyan/backtrace.hpp
+	include/nyan/debug.hpp
+	include/nyan/debug/backtrace.hpp
+	include/nyan/debug/demangle.hpp
 	include/nyan/fail.hpp
 	include/nyan/fail/empty_fail.hpp
 	include/nyan/fail/fail_base.hpp
@@ -89,7 +91,8 @@ add_library(nyan
 	include/nyan/ptr/reference_counted_object.hpp
 	include/nyan/ptr/surely_ptr.hpp
 	include/nyan/source_coordinate.hpp
-	src/lib/backtrace.cpp
+	src/lib/debug/backtrace.cpp
+	src/lib/debug/demangle.cpp
 	src/lib/fail/empty_fail.cpp
 	src/lib/fail/fail_base.cpp
 	src/lib/fail/fail_record.cpp

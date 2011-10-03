@@ -38,6 +38,10 @@
 
 #define NYAN_PANIC_NOW(Message) \
       (::nyan::panic((Message), __FILE__, __LINE__));
+#define NYAN_PANIC_IF(Condition) \
+      (::nyan::panic_if((Condition), \
+            "an expression ("#Condition ") unexpectedly evaluated to *false*.", \
+            __FILE__, __LINE__));
 #define NYAN_PANIC_IFZERO(Value) \
       (::nyan::panic_if_zero((Value), __FILE__, __LINE__));
 #define NYAN_PANIC_IFNULL(Ptr) \

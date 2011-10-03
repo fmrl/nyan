@@ -34,7 +34,7 @@
 #include <nyan/fail/fail_base.hpp>
 
 #include <nyan/fail.hpp>
-#include <nyan/backtrace.hpp>
+#include <nyan/debug.hpp>
 
 namespace nyan
 {
