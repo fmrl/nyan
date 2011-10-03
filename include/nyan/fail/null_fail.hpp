@@ -51,8 +51,6 @@ public:
 
    null_fail(const source_coordinate &where_arg,
          const std::string &identifier_arg);
-   null_fail(const source_coordinate &where_arg,
-         const char *identifier_arg);
 
    virtual ~null_fail() throw();
 
@@ -64,7 +62,7 @@ public:
 
 private:
 
-   void initialize(const char *identifier_arg);
+   void initialize(const std::string &identifier_arg);
 
 };
 

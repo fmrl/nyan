@@ -51,14 +51,12 @@ public:
 
    not_found_fail(const source_coordinate &where_arg,
          const std::string &searchterm_arg);
-   not_found_fail(const source_coordinate &where_arg,
-         const char *searchterm_arg);
 
    virtual ~not_found_fail() throw();
 
 private:
 
-   void initialize(const char *searchterm_arg);
+   void initialize(const std::string &searchterm_arg);
 
 };
 

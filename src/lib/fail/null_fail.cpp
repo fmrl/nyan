@@ -50,17 +50,10 @@ null_fail::null_fail(const source_coordinate &where_arg,
    initialize(identifier_arg.c_str());
 }
 
-null_fail::null_fail(const source_coordinate &where_arg,
-      const char *identifier_arg) :
-   fail(where_arg, our_summary)
-{
-   initialize(identifier_arg);
-}
-
 null_fail::~null_fail() throw()
 {}
 
-void null_fail::initialize(const char *identifier_arg)
+void null_fail::initialize(const std::string &identifier_arg)
 {
    NYAN_FAIL_IFEMPTY(identifier_arg);
 

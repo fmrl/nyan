@@ -59,12 +59,6 @@ fail_record::fail_record(const source_coordinate &where_arg,
    initialize(where_arg, summary_arg.c_str());
 }
 
-fail_record::fail_record(const source_coordinate &where_arg,
-      const char *summary_arg)
-{
-   initialize(where_arg, summary_arg);
-}
-
 fail_record::~fail_record() throw()
 {}
 
@@ -137,9 +131,9 @@ void fail_record::sto_source_coordinate(const std::string &name_arg,
 }
 
 void fail_record::initialize(const source_coordinate &where_arg,
-      const char *summary_arg)
+      const std::string &summary_arg)
 {
-   NYAN_FAIL_IFNULL(summary_arg);
+   NYAN_FAIL_IFEMPTY(summary_arg);
 
    where(where_arg);
    summary(summary_arg);

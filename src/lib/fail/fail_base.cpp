@@ -46,13 +46,6 @@ fail::fail(const source_coordinate &where_arg,
    initialize();
 }
 
-fail::fail(const source_coordinate &where_arg,
-      const char *summary_arg) :
-      my_record(new fail_record(where_arg, summary_arg))
-{
-   initialize();
-}
-
 fail::~fail() throw()
 {}
 

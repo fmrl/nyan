@@ -38,7 +38,7 @@
 namespace nyan
 {
 
-source_coordinate::source_coordinate(const char *filen_arg,
+source_coordinate::source_coordinate(const std::string &filen_arg,
       size_t lineno_arg) :
    my_filen(filen_arg),
    my_lineno(lineno_arg)

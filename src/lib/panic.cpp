@@ -39,14 +39,17 @@
 
 namespace
 {
-void print_prologue(std::ostream &out_arg,
-      const nyan::source_coordinate &where_arg);
+void print_prologue(std::ostream &out_arg, const char *filen_arg,
+      int lineno_arg);
 
-void print_prologue(std::ostream &out_arg,
-      const nyan::source_coordinate &where_arg)
+void print_prologue(std::ostream &out_arg, const char *filen_arg,
+      int lineno_arg)
 {
    out_arg << "the nyan::panic() stops at ";
-   where_arg.print_friendly(out_arg);
+   if (NULL == filen_arg || '\0' == filen_arg[0])
+      out_arg << "an undisclosed location";
+   else
+      out_arg << "line " << lineno_arg << " of \"" << filen_arg << "\"";
    out_arg << " and says...\n\n";
 }
 
@@ -55,54 +58,59 @@ void print_prologue(std::ostream &out_arg,
 namespace nyan
 {
 
-void panic(const char *msg_arg, const source_coordinate &where_arg)
+void panic(const char *msg_arg)
+{
+   panic(msg_arg, NULL, -1);
+}
+
+void panic(const char *msg_arg, const char *filen_arg, size_t lineno_arg)
 {
    // i cannot use a panic_...() function here; it would cause a stack
    // overflow.
    if (NULL == msg_arg)
    {
-      print_prologue(std::cerr, NYAN_HERE());
+      print_prologue(std::cerr, __FILE__, __LINE__);
       std::cerr << "the NULL hits! the NULL hits! you die.";
       abort();
    }
    else
    {
-      print_prologue(std::cerr, where_arg);
+      print_prologue(std::cerr, filen_arg, lineno_arg);
       std::cerr << msg_arg;
       abort();
    }
 }
 
 bool panic_if(bool condition_arg, const char *msg_arg,
-      const source_coordinate &where_arg)
+      const char *filen_arg, size_t lineno_arg)
 {
 	if (condition_arg)
-		panic(msg_arg, where_arg);
+		panic(msg_arg, filen_arg, lineno_arg);
 	return condition_arg;
 }
 
 const char * panic_if_empty(const char *str_arg,
-      const source_coordinate &where_arg)
+      const char *filen_arg, size_t lineno_arg)
 {
    NYAN_PANIC_IFNULL(str_arg);
    if ('\0' == str_arg[0])
    {
-      panic("the emptiness hits! the emptiness hits! you die.", where_arg);
+      panic("the emptiness hits! the emptiness hits! you die.", filen_arg, lineno_arg);
    }
    return str_arg;
 }
 
-char * panic_if_empty(char *str_arg, const source_coordinate &where_arg)
+char * panic_if_empty(char *str_arg, const char *filen_arg, size_t lineno_arg)
 {
    NYAN_PANIC_IFNULL(str_arg);
-   (void)panic_if_empty(const_cast< const char * >(str_arg), where_arg);
+   (void)panic_if_empty(const_cast< const char * >(str_arg), filen_arg, lineno_arg);
    return str_arg;
 }
 
-void panic_unreachable(const source_coordinate &where_arg)
+void panic_unreachable(const char *filen_arg, size_t lineno_arg)
 {
    panic("the unreachable code hits! the unreachable code hits! you die. ",
-         where_arg);
+         filen_arg, lineno_arg);
 }
 
 }

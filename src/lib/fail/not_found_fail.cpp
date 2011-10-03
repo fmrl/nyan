@@ -49,17 +49,10 @@ not_found_fail::not_found_fail(const source_coordinate &where_arg,
    initialize(searchterm_arg.c_str());
 }
 
-not_found_fail::not_found_fail(const source_coordinate &where_arg,
-      const char *searchterm_arg) :
-   fail(where_arg, our_summary)
-{
-   initialize(searchterm_arg);
-}
-
 not_found_fail::~not_found_fail() throw()
 {}
 
-void not_found_fail::initialize(const char *searchterm_arg)
+void not_found_fail::initialize(const std::string &searchterm_arg)
 {
    NYAN_FAIL_IFEMPTY(searchterm_arg);
 

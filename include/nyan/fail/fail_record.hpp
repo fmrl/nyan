@@ -75,8 +75,6 @@ public:
 
    fail_record(const source_coordinate &where_arg,
          const std::string &summary_arg);
-   fail_record(const source_coordinate &where_arg,
-         const char *summary_arg);
 
    virtual ~fail_record() throw();
 
@@ -149,7 +147,7 @@ public:
 private:
 
    void initialize(const source_coordinate &where_arg,
-         const char *what_arg);
+         const std::string &summary_arg);
 
 };
 

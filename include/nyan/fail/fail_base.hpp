@@ -62,8 +62,6 @@ protected:
 
    fail(const source_coordinate &where_arg,
          const std::string &summary_arg);
-   fail(const source_coordinate &where_arg,
-         const char *summary_arg);
 
 public:
 

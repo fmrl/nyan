@@ -43,19 +43,19 @@ class source_coordinate
 {
 private:
 
-   const char *my_filen;
+   std::string my_filen;
    size_t my_lineno;
 
 public:
 
-   source_coordinate(const char *filen_arg, size_t lineno_arg);
+   source_coordinate(const std::string &filen_arg, size_t lineno_arg);
 
    // i eliminated the virtual dispatch because this class is intended to
    // be constructed on the stack with frequency.
    ~source_coordinate()
    {}
 
-   const char * filen() const
+   const std::string & filen() const
    {
       return my_filen;
    }
