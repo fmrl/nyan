@@ -78,6 +78,7 @@ add_library(nyan
 	include/nyan/fail/empty_fail.hpp
 	include/nyan/fail/fail_base.hpp
 	include/nyan/fail/fail_meta.hpp
+	include/nyan/fail/fail_policy.hpp
 	include/nyan/fail/fail_record.hpp
 	include/nyan/fail/not_found_fail.hpp
 	include/nyan/fail/null_fail.hpp
@@ -95,6 +96,7 @@ add_library(nyan
 	src/lib/debug/demangle.cpp
 	src/lib/fail/empty_fail.cpp
 	src/lib/fail/fail_base.cpp
+	src/lib/fail/fail_policy.cpp
 	src/lib/fail/fail_record.cpp
 	src/lib/fail/not_found_fail.cpp
 	src/lib/fail/null_fail.cpp
