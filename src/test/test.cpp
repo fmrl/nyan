@@ -43,7 +43,7 @@ void foo()
 
 int main()
 {
-   if (nyan::apply_fail_policy(foo, nyan::fail_policy()))
+   if (nyan::apply_fail_policy(nyan::fail_policy(), foo))
       return 1;
    else
       return 0;
