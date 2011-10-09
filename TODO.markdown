@@ -12,3 +12,4 @@ todo list for nyan
   - cow strings
   - wchar_t support
 - implement nyan::allocator
+- rename source_coordinate to text_coordinate.
