@@ -32,7 +32,7 @@
 cmake_minimum_required(VERSION 2.6)
 project(nyan)
 
-include(cmake/cache.cmake)
+include(cmakes/cache.cmake)
 
 # toolchain configuration
 # -----------------------
@@ -53,12 +53,12 @@ set_cache_builtin(STRING CMAKE_CXX_FLAGS ${DEFAULT_CFLAGS})
 
 find_package(Threads REQUIRED)
 
-include(cmake/boost.cmake)
+include(cmakes/boost.cmake)
 find_boost(1.42.0 REQUIRED COMPONENTS thread regex)
 
-include(cmake/yaml-cpp.cmake)
+include(cmakes/yaml-cpp.cmake)
 
-include(cmake/config.cmake)
+include(cmakes/config.cmake)
 generate_config_header(nyan)
 
 # include directory search path
