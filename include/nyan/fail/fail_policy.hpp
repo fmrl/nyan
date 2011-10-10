@@ -60,15 +60,44 @@ namespace nyan
 namespace detail
 {
 
+template < class It, class End, class Policy, class To, class With0,
+      class With1, class With2 >
+bool apply_fail_policy3(boost::mpl::true_, Policy, To to_arg, With0 with0_arg,
+      With1 with1_arg, With2 with2_arg)
+{
+   to_arg(with0_arg, with1_arg, with2_arg);
+   return false;
+}
+
+template < class It, class End, class Policy, class To, class With0,
+      class With1 >
+bool apply_fail_policy3(boost::mpl::true_, Policy, To to_arg, With0 with0_arg,
+      With1 with1_arg, boost::mpl::void_)
+{
+   to_arg(with0_arg, with1_arg);
+   return false;
+}
+
+template < class It, class End, class Policy, class To, class With0 >
+bool apply_fail_policy3(boost::mpl::true_, Policy, To to_arg, With0 with0_arg,
+      boost::mpl::void_, boost::mpl::void_)
+{
+   to_arg(with0_arg);
+   return false;
+}
+
 template < class It, class End, class Policy, class To >
-bool apply_fail_policy3(boost::mpl::true_, Policy, To to_arg)
+bool apply_fail_policy3(boost::mpl::true_, Policy, To to_arg,
+      boost::mpl::void_, boost::mpl::void_, boost::mpl::void_)
 {
    to_arg();
    return false;
 }
 
-template < class It, class End, class Policy, class To >
-bool apply_fail_policy3(boost::mpl::false_, Policy policy_arg, To to_arg)
+template < class It, class End, class Policy, class To, class With0,
+      class With1, class With2 >
+bool apply_fail_policy3(boost::mpl::false_, Policy policy_arg, To to_arg,
+      With0 with0_arg, With1 with1_arg, With2 with2_arg)
 {
    typedef typename boost::mpl::deref< It >::type Exception;
    typedef typename boost::mpl::next< It >::type Next;
@@ -77,7 +106,7 @@ bool apply_fail_policy3(boost::mpl::false_, Policy policy_arg, To to_arg)
    {
       return apply_fail_policy3< Next, End >(
             typename boost::is_same< Next, End >::type(),
-            policy_arg, to_arg);
+            policy_arg, to_arg, with0_arg, with1_arg, with2_arg);
    }
    catch (const Exception &e)
    {
@@ -86,24 +115,54 @@ bool apply_fail_policy3(boost::mpl::false_, Policy policy_arg, To to_arg)
    }
 }
 
-template < class Protocol, class Policy, class To >
-bool apply_fail_policy2(Policy policy_arg, To to_arg)
+template < class Protocol, class Policy, class To, class With0, class With1,
+      class With2 >
+bool apply_fail_policy2(Policy policy_arg, To to_arg, With0 with0_arg,
+      With1 with1_arg,  With2 with2_arg)
 {
    typedef typename boost::mpl::begin< Protocol >::type Begin;
    typedef typename boost::mpl::end< Protocol >::type End;
    return apply_fail_policy3< Begin, End >(
          typename boost::is_same< Begin, End >::type(),
-         policy_arg, to_arg);
+         policy_arg, to_arg, with0_arg, with1_arg, with2_arg);
 }
 
 } //namespace detail
+
+template < class Policy, class To, class With0, class With1, class With2 >
+bool apply_fail_policy(Policy policy_arg, To to_arg, With0 with0_arg,
+      With1 with1_arg, With2 with2_arg)
+{
+   return detail::apply_fail_policy2<
+         typename boost::mpl::reverse< typename Policy::protocol >::type
+         >(policy_arg, to_arg, with0_arg, with1_arg, with2_arg);
+}
+
+template < class Policy, class To, class With0, class With1 >
+bool apply_fail_policy(Policy policy_arg, To to_arg, With0 with0_arg,
+      With1 with1_arg)
+{
+   return detail::apply_fail_policy2<
+         typename boost::mpl::reverse< typename Policy::protocol >::type
+         >(policy_arg, to_arg, with0_arg, with1_arg, boost::mpl::void_());
+}
+
+template < class Policy, class To, class With0 >
+bool apply_fail_policy(Policy policy_arg, To to_arg, With0 with0_arg)
+{
+   return detail::apply_fail_policy2<
+         typename boost::mpl::reverse< typename Policy::protocol >::type
+         >(policy_arg, to_arg, with0_arg, boost::mpl::void_(),
+               boost::mpl::void_());
+}
 
 template < class Policy, class To >
 bool apply_fail_policy(Policy policy_arg, To to_arg)
 {
    return detail::apply_fail_policy2<
          typename boost::mpl::reverse< typename Policy::protocol >::type
-         >(policy_arg, to_arg);
+         >(policy_arg, to_arg, boost::mpl::void_(), boost::mpl::void_(),
+               boost::mpl::void_());
 }
 
 class fail_policy

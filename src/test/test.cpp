@@ -33,17 +33,15 @@
 
 #include <nyan/fail.hpp>
 
-void foo()
+void foo(int x)
 {
-   int x = 0;
-
    NYAN_FAIL_IFZERO(x);
-   //throw std::runtime_error("this is a test");
+   throw std::runtime_error("this is a test");
 }
 
 int main()
 {
-   if (nyan::apply_fail_policy(nyan::fail_policy(), foo))
+   if (nyan::apply_fail_policy(nyan::fail_policy(), foo, 0))
       return 1;
    else
       return 0;
