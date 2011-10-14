@@ -71,6 +71,9 @@ include_directories(${Boost_INCLUDE_DIRS})
 
 add_library(nyan
 	include/nyan/atomic_integer.hpp
+	include/nyan/atomic_integer.hpp
+	include/nyan/convert.hpp
+	include/nyan/convert/convert_number.hpp
 	include/nyan/debug.hpp
 	include/nyan/debug/backtrace.hpp
 	include/nyan/debug/demangle.hpp

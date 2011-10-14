@@ -33,8 +33,9 @@
 
 #include <nyan/debug/backtrace.hpp>
 
-#include <nyan/panic.hpp>
+#include <nyan/convert.hpp>
 #include <nyan/debug.hpp>
+#include <nyan/panic.hpp>
 
 #include <cassert>
 #include <cstdio>       // required for the backtrace code (sscanf).
@@ -74,10 +75,9 @@ void backtrace::initialize(int startat_arg)
    // *startat_arg* is normalized so that frame 0 refers to the frame of
    // the caller, which is absolute frame 1. therefore, a value of -2
    // should show the complete backtrace.
-   // [todo] i need to implement a set of numeric cast functions.
-   my_starting_frame = std::max(0, startat_arg + 2);
+   convert(my_starting_frame, std::max(0, startat_arg + 2));
    void *ptrs[our_max_frames];
-   my_size = ::backtrace(ptrs, our_max_frames);
+   convert(my_size, ::backtrace(ptrs, our_max_frames));
    my_frames = ::backtrace_symbols(ptrs, my_size);
 }
 
