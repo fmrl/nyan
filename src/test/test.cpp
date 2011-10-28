@@ -33,10 +33,33 @@
 
 #include <nyan/fail.hpp>
 
+class object
+{
+private:
+
+   int my_x;
+
+public:
+
+   object(int x) :
+      my_x(x)
+   {}
+
+   void finalize()
+   {
+      NYAN_FAIL_IFZERO(my_x);
+   }
+
+   ~object()
+   {
+      (void)nyan::apply_fail_policy(nyan::fail_policy(),
+            std::mem_fun(&object::finalize), this);
+   }
+};
+
 void foo(int x)
 {
-   NYAN_FAIL_IFZERO(x);
-   throw std::runtime_error("this is a test");
+   object ob(x);
 }
 
 int main()
