@@ -4,14 +4,14 @@ libnyan
 written by [michael lowell roberts][1].
 
 overview
-========
+--------
 
 **libnyan** is a general-purpose utility library which focuses on reliable programming idioms and techniques, such as [failure policies][3].
 
 it's still being developed and isn't really intended for consumption at this point.
 
 license
-=======
+-------
 
 *libnyan* source code is provided under the *New BSD License*.
 
