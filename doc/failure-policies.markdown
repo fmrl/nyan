@@ -1,9 +1,7 @@
 failure policies in libnyan
 ===========================
 
-copyright (c) 2011, [michael lowell roberts][1].  
-licensed under the [creative commons attribution 3.0 unported license][2].  
-all rights reserved.
+written by [michael lowell roberts][1].
 
 overview
 --------
@@ -119,8 +117,12 @@ consider the case of a destructor, which is not permitted to throw exceptions:
 
 ordinarily, checking for unhandled exceptions in every destructor would require much copy-and-paste coding. most programmers wouldn't bother with such an endeavor. additionally, the code would not be adaptable to the needs of new situations without a significant effort. this is a reasonable undertaking, however, when using the failure policy abstraction.
 
------
-[1]:http://fmrl.org
+_____
+**failure-policies.markdown**.  
+copyright (c) 2011, [michael lowell roberts][1].  
+licensed under the [creative commons attribution 3.0 unported license][2].  
+all rights reserved. 
+[1]:http://fmrl.org  
 [2]:http://creativecommons.org/licenses/by/3.0/
 [3]:http://knowyourmeme.com/memes/copypasta
 [4]:http://github.com/fmrl/nyan
