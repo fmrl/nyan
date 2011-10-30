@@ -6,7 +6,7 @@ written by [michael lowell roberts][1].
 overview
 --------
 
-in C++, exception handling provides a mechanism that makes error reporting and handling more convenient for the programmer than simple return codes allow. unfortunately, due to the fact that a catch block is a syntactic device (as opposed to being a function), the programmer is forced to resort to [copypasta][3] to describe common reactions to anticipated exceptions. this practice is unmanageable. furthermore, it discourages the placement of `try`...`catch` blocks where they would be appropriate.
+in C++, exception handling provides a mechanism that makes error reporting and handling more convenient for the programmer than simple return codes allow. a catch block is a control structure, which unfortunately forces the programmer to resort to [copypasta][3] when describing common reactions to anticipated exceptions. this practice is unmanageable. furthermore, it discourages the placement of `try`...`catch` blocks where they would be appropriate.
 
 *failure policies* are a means by which the programmer can define a vocabulary for how to react to an   exception anticipated in a given situation.
 
