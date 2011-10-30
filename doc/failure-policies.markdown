@@ -6,9 +6,9 @@ written by [michael lowell roberts][1].
 overview
 --------
 
-in C++, exception handling provides a mechanism that makes error reporting and handling more convenient for the programmer than simple return codes would otherwise allow. unfortunately, due to the fact that a catch block is a syntactic device (as opposed to being a function), the programmer is forced to resort to [copypasta][3] to describe a generalized policy regarding how to react to an unhandled exception. this is unmanagable and discourages the placement of `try`...`catch` blocks where they would normally be appropriate.
+in C++, exception handling provides a mechanism that makes error reporting and handling more convenient for the programmer than simple return codes allow. unfortunately, due to the fact that a catch block is a syntactic device (as opposed to being a function), the programmer is forced to resort to [copypasta][3] to describe common reactions to anticipated exceptions. this practice is unmanageable. furthermore, it discourages the placement of `try`...`catch` blocks where they would be appropriate.
 
-*failure policies* are a means by which the programmer can define a vocabulary for how to react to an unhandled exception in a given situation.
+*failure policies* are a means by which the programmer can define a vocabulary for how to react to an   exception anticipated in a given situation.
 
 prerequisites
 -------------
@@ -28,7 +28,7 @@ the protocol declaration
 
 the `protocol` member is a typelist (`boost::mpl::vector`) that describes which exception types the policy understands. the types are expected to be listed in order from most specific to least specific.
 
-for example, the following definition of `protocol` first considers exceptions of type `nyan::fail`, then of type `std::execption`:
+for example, the following definition of `protocol` first considers exceptions of type `nyan::fail`, then of type `std::exception`:
 
 	typedef boost::mpl::vector< nyan::fail, std::exception > protocol;
 
@@ -56,7 +56,7 @@ the failure policy class should include a response method for each type declared
 
 	void operator()(const T &fail_arg) const;
 
-wherever the policy is applied to a function call, if an unhandled exception is caught, it is dispatched to the appropriate response method.
+wherever the policy is applied to a function call, if exception *T* is caught, it is dispatched to the corresponding response method.
 
 example policy
 --------------
@@ -100,7 +100,7 @@ the following code will invoke the response method defined in the example associ
 
 `nyan::apply_fail_policy()` returns `true` if an exception was caught. this gives an enclosing loop the ability to terminate, should it see fit to do so.
 
-the advantage of this approach is that a programmer can define a policy once and apply it throughout the source code simply by referring to it by name. the result is reasonably maintanable, since a change in policy propigates throughout the rest of the source code effortlessly. 
+the advantage of this approach is that a programmer can define a policy once and apply it throughout the source code simply by referring to it by name. the result is reasonably maintainable, since a change in policy propagates throughout the rest of the source code effortlessly. 
 
 consider the case of a destructor, which is not permitted to throw exceptions:
 
@@ -115,7 +115,7 @@ consider the case of a destructor, which is not permitted to throw exceptions:
 	         std::mem_fun(&object::finalize), this);
 	}
 
-ordinarily, checking for unhandled exceptions in every destructor would require much copy-and-paste coding. most programmers wouldn't bother with such an endeavor. additionally, the code would not be adaptable to the needs of new situations without a significant effort. this is a reasonable undertaking, however, when using the failure policy abstraction.
+ordinarily, checking for anticipated exceptions within each destructor would require considerable copy-and-paste coding. most programmers wouldn't bother with such an endeavor. additionally, the code would not be adaptable to the needs of new situations without a continuous effort. this is a reasonable undertaking, however, when using the failure policy abstraction.
 
 _____
 **failure-policies.markdown**.  
