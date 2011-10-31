@@ -115,7 +115,7 @@ consider the case of a destructor, which is not permitted to throw exceptions:
 	         std::mem_fun(&object::finalize), this);
 	}
 
-ordinarily, checking for anticipated exceptions within each destructor would require considerable copy-and-paste coding. most programmers wouldn't bother with such an endeavor. additionally, the code would not be adaptable to the needs of new situations without a continuous effort. this is a reasonable undertaking, however, when using the failure policy abstraction.
+ordinarily, checking for anticipated exceptions within each destructor would require considerable copy-and-paste coding. most programmers, understandably, would not bother with such an endeavor. additionally, the code would not be adaptable to the needs of new situations without a continuous effort. this is a reasonable undertaking, however, when using the failure policy abstraction.
 
 _____
 **failure-policies.markdown**.  
