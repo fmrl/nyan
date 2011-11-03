@@ -121,11 +121,15 @@ _____
 **failure-policies.markdown**.  
 copyright (c) 2011, [michael lowell roberts][1].  
 licensed under the [creative commons attribution 3.0 unported license][2].  
-all rights reserved. 
+all rights reserved.
+
 [1]:http://fmrl.org  
 [2]:http://creativecommons.org/licenses/by/3.0/
 [3]:http://knowyourmeme.com/memes/copypasta
 [4]:http://github.com/fmrl/nyan
 [5]:http://www.boost.org/doc/libs/release/libs/mpl/doc/index.html
+
+#朝露fmrl
+
 
 
