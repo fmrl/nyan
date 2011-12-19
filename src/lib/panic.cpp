@@ -60,7 +60,7 @@ namespace nyan
 
 void panic(const char *msg_arg)
 {
-   panic(msg_arg, NULL, -1);
+   panic(msg_arg, NULL, (size_t)-1);
 }
 
 void panic(const char *msg_arg, const char *filen_arg, size_t lineno_arg)

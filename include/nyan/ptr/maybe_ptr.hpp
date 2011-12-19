@@ -34,8 +34,11 @@
 #ifndef MAYBE_PTR_HPP_IS_INCLUDED
 #define MAYBE_PTR_HPP_IS_INCLUDED
 
+#include <nyan/destroy.hpp>
 #include <nyan/ptr/ptr_base.hpp>
+
 #include <boost/intrusive_ptr.hpp>
+
 #include <cassert>
 
 namespace nyan
@@ -76,7 +79,7 @@ public:
 
    ~maybe_ptr() throw()
    {
-      this->~ptr_base();
+      nyan::invoke_destructor(static_cast< ptr_base & >(*this));
    }
 
    maybe_ptr & operator=(const maybe_ptr &other_arg) throw()

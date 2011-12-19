@@ -34,6 +34,7 @@
 #ifndef SURELY_PTR_HPP_IS_INCLUDED
 #define SURELY_PTR_HPP_IS_INCLUDED
 
+#include <nyan/destroy.hpp>
 #include <nyan/ptr/ptr_base.hpp>
 
 namespace nyan
@@ -77,7 +78,7 @@ public:
    ~surely_ptr() throw()
    {
       my_ptr->decref();
-      this->~ptr_base();
+      nyan::invoke_destructor(static_cast< ptr_base & >(*this));
    }
 
    surely_ptr & operator=(const surely_ptr &other_arg) throw()

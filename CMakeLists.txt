@@ -36,12 +36,18 @@ include(cmakes/cache.cmake)
 
 # toolchain configuration
 # -----------------------
+# on linux, the intel compiler executable is called *icc*.
+if(${CMAKE_C_COMPILER} MATCHES icc)
+	set(COMPILER_IS_ICC YES)
+endif()
 if(CMAKE_COMPILER_IS_GNUCC)
 	# -Wmissing-braces and -Wmissing-field-initializers appears
 	# to interfere with C89-defined behavior.
 	# "-rdynamic" tells the linker to put all symbols into the symbol
 	# table.
 	set(DEFAULT_CFLAGS "-rdynamic -Wall -Wextra -Wno-missing-braces -Wno-missing-field-initializers")
+elseif(COMPILER_IS_ICC)
+	# nothing to do (yet).
 elseif(MSVC)
 	# C4127 pops up every time a "do {} while (0)" is used.
 	set(DEFAULT_CFLAGS "/W4 /wd4127")
@@ -77,6 +83,7 @@ add_library(nyan
 	include/nyan/debug.hpp
 	include/nyan/debug/backtrace.hpp
 	include/nyan/debug/demangle.hpp
+	include/nyan/destroy.hpp
 	include/nyan/fail.hpp
 	include/nyan/fail/empty_fail.hpp
 	include/nyan/fail/fail_base.hpp
