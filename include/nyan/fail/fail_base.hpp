@@ -34,24 +34,110 @@
 #ifndef NYAN_FAIL_BASE_HPP_IS_INCLUDED
 #define NYAN_FAIL_BASE_HPP_IS_INCLUDED
 
-#include <nyan/fail/fail_record.hpp>
+#include <nyan/debug.hpp>
 #include <nyan/ptr.hpp>
 #include <nyan/source_coordinate.hpp>
 
+#include <nyan/config.h>
+#if NYAN_CAN_HAS_YAML
+#     include <yaml-cpp/yaml.h>
+#endif //NYAN_CAN_HAS_YAML
+
+#include <boost/mpl/assert.hpp>
+#include <boost/regex.hpp>
+#include <boost/type_traits.hpp>
+
 #include <exception>
 #include <map>
+#include <sstream>
 #include <string>
+#include <typeinfo>
 
 namespace nyan
 {
+// a forward declaration of fail_record is necessary for it to be
+// passed as an argument to field::print().
+class fail_record;
 
 class fail :
    public std::exception
 {
 public:
 
+   class field
+   {
+   private:
+
+      typedef boost::regex regex_type;
+      typedef boost::smatch match_type;
+      static const regex_type our_subst_re;
+      static const std::string our_nil_string;
+
+      typedef std::pair< std::string, std::string > pair_type;
+      pair_type my_pair;
+
+   public:
+
+      field();
+
+      template < class Name, class Value >
+      field(const Name &name_arg, const Value &value_arg) :
+         my_pair(make_pair(name_arg, value_arg))
+      {}
+
+      virtual ~field() throw();
+
+      const std::string & name() const;
+      const std::string & value() const;
+      void print(std::ostream &out_arg,
+            const fail_record &record_arg) const;
+
+#if NYAN_CAN_HAS_YAML
+      void emit_yaml(YAML::Emitter &out_arg) const;
+      void emit(YAML::Emitter &out_arg) const;
+#endif
+
+   private:
+
+      template < class Value >
+      static const pair_type make_pair(const char *name_arg,
+            const Value &value_arg)
+      {
+         fail_if_empty(name_arg);
+         return make_pair(std::string(name_arg), value_arg);
+      }
+
+      template < class Value >
+      static const pair_type make_pair(const std::string &name_arg,
+            const Value &value_arg)
+      {
+         std::ostringstream s;
+         s << value_arg;
+         return make_pair(name_arg, s.str());
+      }
+
+      static const pair_type make_pair(const std::string &name_arg,
+            const std::string &value_arg);
+      static const pair_type make_pair(const std::string &name_arg,
+            const char *value_arg);
+      static const pair_type make_pair(const std::string &name_arg,
+            const source_coordinate &where_arg);
+      static const pair_type make_pair(const std::string &name_arg,
+            const std::type_info &type_arg);
+
+      static void fail_if_empty(const char *str_arg);
+
+   };//class field
+
+   // [todo] rename surley_ptr and maybe_ptr to trusted_ptr and
+   // untrusted_ptr.
    typedef const_surely_ptr< fail_record > const_record_ptr_type;
    typedef surely_ptr< fail_record > record_ptr_type;
+
+   static const std::string our_type_field_name;
+   static const std::string our_summary_field_name;
+   static const std::string our_where_field_name;
+   static const std::string our_backtrace_field_name;
 
 private:
 
@@ -69,35 +155,24 @@ public:
 
    virtual const char * what() const throw();
 
-   const_record_ptr_type record() const
-   {
-      return my_record;
-   }
+   const_record_ptr_type const_record() const;
+   record_ptr_type record() const;
 
-   record_ptr_type record()
-   {
-      return my_record;
-   }
-
-   template < class Value >
-   fail & sto(const std::string &name_arg, const Value &value_arg)
-   {
-      my_record->sto(name_arg, value_arg);
-      return *this;
-   }
-
+   // insert() needs to be **const** so that
+   // operator<< <Other, fail:field>() can successfully match against a
+   // newly constructed exception in a **throw** statement.
+   void insert(const field &field_arg) const;
+   const std::string & at(const std::string &name_arg) const;
    void print(std::ostream &out_arg,
          const std::string &name_arg) const;
-
-   fail & summary(const std::string &text_arg);
    void print_summary(std::ostream &out_arg) const;
-   fail & where(const source_coordinate &where_arg);
-   void print_where(std::ostream &out_arg) const;
-   void print_type(std::ostream &out_arg) const;
-   fail & backtrace(const std::string &text_arg);
-   void print_backtrace(std::ostream &out_arg) const;
 
-#if NYAN_CAN_HAS_YAML
+   static const field type(const std::type_info &type_arg);
+   static const field summary(const std::string &text_arg);
+   static const field where(const source_coordinate &where_arg);
+   static const field backtrace(const ::nyan::backtrace &bt_arg);
+
+   #if NYAN_CAN_HAS_YAML
    void emit_yaml(YAML::Emitter &out_arg) const;
    void emit(YAML::Emitter &out_arg) const;
 #endif
@@ -111,6 +186,16 @@ private:
 #if NYAN_CAN_HAS_YAML
 YAML::Emitter & operator<<(YAML::Emitter &out_arg, const fail &fail_arg);
 #endif
+
+template < class Object >
+const Object & operator<<(const Object &fail_arg,
+      const nyan::fail::field &field_arg)
+{
+   BOOST_MPL_ASSERT((boost::is_base_of< fail, Object >));
+
+   fail_arg.insert(field_arg);
+   return fail_arg;
+}
 
 }
 

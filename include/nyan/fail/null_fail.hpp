@@ -44,7 +44,7 @@ class null_fail :
 {
 private:
 
-   static const std::string our_identifier_field;
+   static const std::string our_identifier_field_name;
    static const std::string our_summary;
 
 public:
@@ -62,11 +62,12 @@ public:
 
 private:
 
+   static const field identifier(const std::string &identifier_arg);
+
    void initialize(const std::string &identifier_arg);
 
 };
 
 }
-
 
 #endif /* NYAN_NULL_FAIL_HPP_IS_INCLUDED */

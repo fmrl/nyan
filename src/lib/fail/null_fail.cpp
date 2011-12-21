@@ -38,7 +38,7 @@
 namespace nyan
 {
 
-const std::string null_fail::our_identifier_field("identifier");
+const std::string null_fail::our_identifier_field_name("identifier");
 const std::string null_fail::our_summary(
          "i unexpectedly encountered a pointer variable (${identifier}) "
          "that contains a NULL value at ${where}.");
@@ -47,7 +47,7 @@ null_fail::null_fail(const source_coordinate &where_arg,
       const std::string &identifier_arg) :
    fail(where_arg, our_summary)
 {
-   initialize(identifier_arg.c_str());
+   initialize(identifier_arg);
 }
 
 null_fail::~null_fail() throw()
@@ -55,9 +55,13 @@ null_fail::~null_fail() throw()
 
 void null_fail::initialize(const std::string &identifier_arg)
 {
-   NYAN_FAIL_IFEMPTY(identifier_arg);
+   insert(identifier(identifier_arg));
+}
 
-   sto(our_identifier_field, identifier_arg);
+const null_fail::field
+      null_fail::identifier(const std::string &identifier_arg)
+{
+   return field(our_identifier_field_name, identifier_arg);
 }
 
 }

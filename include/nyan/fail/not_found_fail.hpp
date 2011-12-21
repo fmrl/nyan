@@ -44,19 +44,21 @@ class not_found_fail :
 {
 private:
 
-   static const std::string our_search_term_field;
+   static const std::string our_search_term_field_name;
    static const std::string our_summary;
 
 public:
 
    not_found_fail(const source_coordinate &where_arg,
-         const std::string &searchterm_arg);
+         const std::string &term_arg);
 
    virtual ~not_found_fail() throw();
 
 private:
 
-   void initialize(const std::string &searchterm_arg);
+   static const field search_term(const std::string &term_arg);
+
+   void initialize(const std::string &term_arg);
 
 };
 

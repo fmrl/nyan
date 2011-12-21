@@ -38,7 +38,7 @@
 namespace nyan
 {
 
-const std::string zero_fail::our_identifier_field("identifier");
+const std::string zero_fail::our_identifier_field_name("identifier");
 const std::string zero_fail::our_summary(
          "i unexpectedly encountered a variable (${identifier}) "
          "that contains a disallowed value (0) at ${where}.");
@@ -47,7 +47,7 @@ zero_fail::zero_fail(const source_coordinate &where_arg,
       const std::string &identifier_arg) :
    fail(where_arg, our_summary)
 {
-   initialize(identifier_arg.c_str());
+   initialize(identifier_arg);
 }
 
 zero_fail::~zero_fail() throw()
@@ -55,9 +55,13 @@ zero_fail::~zero_fail() throw()
 
 void zero_fail::initialize(const std::string &identifier_arg)
 {
-   NYAN_FAIL_IFEMPTY(identifier_arg);
+   insert(identifier(identifier_arg));
+}
 
-   sto(our_identifier_field, identifier_arg);
+const zero_fail::field
+      zero_fail::identifier(const std::string &identifier_arg)
+{
+   return field(our_identifier_field_name, identifier_arg);
 }
 
 }

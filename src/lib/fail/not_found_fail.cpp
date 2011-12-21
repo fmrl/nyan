@@ -38,25 +38,29 @@
 namespace nyan
 {
 
-const std::string not_found_fail::our_search_term_field("search_term");
+const std::string not_found_fail::our_search_term_field_name("search_term");
 const std::string not_found_fail::our_summary(
       "my search for \"${search_term}\" failed unexpectedly at ${where}.");
 
 not_found_fail::not_found_fail(const source_coordinate &where_arg,
-      const std::string &searchterm_arg) :
+      const std::string &term_arg) :
    fail(where_arg, our_summary)
 {
-   initialize(searchterm_arg.c_str());
+   initialize(term_arg.c_str());
 }
 
 not_found_fail::~not_found_fail() throw()
 {}
 
-void not_found_fail::initialize(const std::string &searchterm_arg)
+void not_found_fail::initialize(const std::string &term_arg)
 {
-   NYAN_FAIL_IFEMPTY(searchterm_arg);
+   insert(search_term(term_arg));
+}
 
-   sto(our_search_term_field, searchterm_arg);
+const not_found_fail::field
+      not_found_fail::search_term(const std::string &term_arg)
+{
+   return field(our_search_term_field_name, term_arg);
 }
 
 }

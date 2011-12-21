@@ -47,7 +47,12 @@ public:
 
    void finalize()
    {
-      NYAN_FAIL_IFZERO(my_x);
+      //NYAN_FAIL_IFZERO(my_x);
+      if (0 == my_x)
+      {
+         throw nyan::zero_fail(NYAN_HERE(), "my_x")
+            << nyan::fail::field("moar", "visibl fail");
+      }
    }
 
    ~object()

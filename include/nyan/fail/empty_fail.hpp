@@ -44,7 +44,7 @@ class empty_fail :
 {
 private:
 
-   static const std::string our_identifier_field;
+   static const std::string our_identifier_field_name;
    static const std::string our_summary;
 
 public:
@@ -63,6 +63,8 @@ public:
    static bool check(const char *str_arg);
 
 private:
+
+   static const field identifier(const std::string &identifier_arg);
 
    void initialize(const std::string &identifier_arg);
 

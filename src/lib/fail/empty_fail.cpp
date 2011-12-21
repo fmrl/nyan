@@ -37,7 +37,7 @@
 
 namespace nyan
 {
-const std::string empty_fail::our_identifier_field("identifier");
+const std::string empty_fail::our_identifier_field_name("identifier");
 const std::string empty_fail::our_summary(
       "i unexpectedly encountered an empty collection (${identifier}) "
       "at ${where}.");
@@ -54,9 +54,7 @@ empty_fail::~empty_fail() throw()
 
 void empty_fail::initialize(const std::string &identifier_arg)
 {
-   NYAN_FAIL_IFEMPTY(identifier_arg);
-
-   sto(our_identifier_field, identifier_arg);
+   insert(identifier(identifier_arg));
 }
 
 bool empty_fail::check(const char *str_arg)
@@ -65,5 +63,10 @@ bool empty_fail::check(const char *str_arg)
    return '\0' == str_arg[0];
 }
 
+const empty_fail::field
+      empty_fail::identifier(const std::string &identifier_arg)
+{
+   return field(our_identifier_field_name, identifier_arg);
+}
 
 }
