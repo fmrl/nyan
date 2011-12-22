@@ -40,7 +40,7 @@ namespace nyan
 
 const std::string null_fail::our_identifier_field_name("identifier");
 const std::string null_fail::our_summary(
-         "i unexpectedly encountered a pointer variable (${identifier}) "
+         "i encountered a pointer variable (${identifier}) "
          "that contains a NULL value at ${where}.");
 
 null_fail::null_fail(const text_coordinate &where_arg,

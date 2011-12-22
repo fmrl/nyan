@@ -40,7 +40,7 @@ namespace nyan
 
 const std::string zero_fail::our_identifier_field_name("identifier");
 const std::string zero_fail::our_summary(
-         "i unexpectedly encountered a variable (${identifier}) "
+         "i encountered a variable (${identifier}) "
          "that contains a disallowed value (0) at ${where}.");
 
 zero_fail::zero_fail(const text_coordinate &where_arg,
