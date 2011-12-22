@@ -3,8 +3,6 @@ todo list for nyan
 
 - integration doxygen.
 - documentation pass.
-- implement generic field binding mechanism for fail-derived classes.
-- eliminate type slicing in fail's field binding routines.
 - abstract the string macro code into a separate class.
 - implement logging system.
 - implement a flyweight class.
