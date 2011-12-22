@@ -49,7 +49,7 @@ private:
 
 public:
 
-   not_found_fail(const source_coordinate &where_arg,
+   not_found_fail(const text_coordinate &where_arg,
          const std::string &term_arg);
 
    virtual ~not_found_fail() throw();

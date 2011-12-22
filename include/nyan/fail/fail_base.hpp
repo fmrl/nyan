@@ -36,7 +36,7 @@
 
 #include <nyan/debug.hpp>
 #include <nyan/ptr.hpp>
-#include <nyan/source_coordinate.hpp>
+#include <nyan/text_coordinate.hpp>
 
 #include <nyan/config.h>
 #if NYAN_CAN_HAS_YAML
@@ -121,7 +121,7 @@ public:
       static const pair_type make_pair(const std::string &name_arg,
             const char *value_arg);
       static const pair_type make_pair(const std::string &name_arg,
-            const source_coordinate &where_arg);
+            const text_coordinate &where_arg);
       static const pair_type make_pair(const std::string &name_arg,
             const std::type_info &type_arg);
 
@@ -144,7 +144,7 @@ private:
 
 protected:
 
-   fail(const source_coordinate &where_arg,
+   fail(const text_coordinate &where_arg,
          const std::string &summary_arg);
 
 public:
@@ -167,7 +167,7 @@ public:
 
    static const field type(const std::type_info &type_arg);
    static const field summary(const std::string &text_arg);
-   static const field where(const source_coordinate &where_arg);
+   static const field where(const text_coordinate &where_arg);
    static const field backtrace(const ::nyan::backtrace &bt_arg);
 
    #if NYAN_CAN_HAS_YAML

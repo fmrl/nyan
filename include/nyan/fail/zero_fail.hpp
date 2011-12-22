@@ -49,7 +49,7 @@ private:
 
 public:
 
-   zero_fail(const source_coordinate &where_arg,
+   zero_fail(const text_coordinate &where_arg,
          const std::string &identifier_arg);
 
    virtual ~zero_fail() throw();

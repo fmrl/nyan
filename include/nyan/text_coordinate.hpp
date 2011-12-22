@@ -31,15 +31,15 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
-#ifndef NYAN_SOURCE_COORDINATE_HPP_IS_INCLUDED
-#define NYAN_SOURCE_COORDINATE_HPP_IS_INCLUDED
+#ifndef NYAN_TEXT_COORDINATE_HPP_IS_INCLUDED
+#define NYAN_TEXT_COORDINATE_HPP_IS_INCLUDED
 
 #include <string>
 
 namespace nyan
 {
 
-class source_coordinate
+class text_coordinate
 {
 private:
 
@@ -48,11 +48,11 @@ private:
 
 public:
 
-   source_coordinate(const std::string &filen_arg, size_t lineno_arg);
+   text_coordinate(const std::string &filen_arg, size_t lineno_arg);
 
    // i eliminated the virtual dispatch because this class is intended to
    // be constructed on the stack with frequency.
-   ~source_coordinate()
+   ~text_coordinate()
    {}
 
    const std::string & filen() const
@@ -71,6 +71,6 @@ public:
 
 }
 
-#define NYAN_HERE() (::nyan::source_coordinate(__FILE__, __LINE__))
+#define NYAN_HERE() (::nyan::text_coordinate(__FILE__, __LINE__))
 
-#endif /* NYAN_SOURCE_COORDINATE_HPP_IS_INCLUDED */
+#endif /* NYAN_TEXT_COORDINATE_HPP_IS_INCLUDED */

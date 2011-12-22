@@ -42,7 +42,7 @@ const std::string empty_fail::our_summary(
       "i unexpectedly encountered an empty collection (${identifier}) "
       "at ${where}.");
 
-empty_fail::empty_fail(const source_coordinate &where_arg,
+empty_fail::empty_fail(const text_coordinate &where_arg,
       const std::string &identifier_arg) :
    fail(where_arg, our_summary)
 {

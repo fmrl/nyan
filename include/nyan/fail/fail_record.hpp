@@ -35,7 +35,7 @@
 #define NYAN_FAIL_RECORD_HPP_IS_INCLUDED
 
 #include <nyan/fail.hpp>
-#include <nyan/source_coordinate.hpp>
+#include <nyan/text_coordinate.hpp>
 
 #include <nyan/config.h>
 #if NYAN_CAN_HAS_YAML
@@ -58,7 +58,7 @@ private:
 
 public:
 
-   fail_record(const source_coordinate &where_arg,
+   fail_record(const text_coordinate &where_arg,
          const std::string &summary_arg);
 
    virtual ~fail_record() throw();
@@ -76,7 +76,7 @@ public:
 
 private:
 
-   void initialize(const source_coordinate &where_arg,
+   void initialize(const text_coordinate &where_arg,
          const std::string &summary_arg);
 
 };//class fail_record

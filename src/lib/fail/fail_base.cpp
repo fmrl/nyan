@@ -120,7 +120,7 @@ const fail::field::pair_type
 
 const fail::field::pair_type
       fail::field::make_pair(const std::string &name_arg,
-      const source_coordinate &where_arg)
+      const text_coordinate &where_arg)
 {
    // [todo] i would like to eliminate string building such as this by
    // implementing a recursive string macro evaluator, which shouldn't be
@@ -183,7 +183,7 @@ void fail::field::emit(YAML::Emitter &out_arg) const
 
 #endif //NYAN_CAN_HAS_YAML
 
-fail::fail(const source_coordinate &where_arg,
+fail::fail(const text_coordinate &where_arg,
       const std::string &summary_arg) :
       my_record(new fail_record(where_arg, summary_arg))
 {
@@ -232,7 +232,7 @@ const fail::field fail::summary(const std::string &text_arg)
    return field(our_summary_field_name, text_arg);
 }
 
-const fail::field fail::where(const source_coordinate &where_arg)
+const fail::field fail::where(const text_coordinate &where_arg)
 {
    return field(our_where_field_name, where_arg);
 }

@@ -42,7 +42,7 @@ const std::string not_found_fail::our_search_term_field_name("search_term");
 const std::string not_found_fail::our_summary(
       "my search for \"${search_term}\" failed unexpectedly at ${where}.");
 
-not_found_fail::not_found_fail(const source_coordinate &where_arg,
+not_found_fail::not_found_fail(const text_coordinate &where_arg,
       const std::string &term_arg) :
    fail(where_arg, our_summary)
 {

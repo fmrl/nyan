@@ -34,7 +34,7 @@
 #ifndef NYAN_PANIC_HPP_IS_INCLUDED
 #define NYAN_PANIC_HPP_IS_INCLUDED
 
-#include <nyan/source_coordinate.hpp>
+#include <nyan/text_coordinate.hpp>
 
 #define NYAN_PANIC_NOW(Message) \
       (::nyan::panic((Message), __FILE__, __LINE__));

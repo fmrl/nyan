@@ -31,14 +31,14 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
-#include <nyan/source_coordinate.hpp>
+#include <nyan/text_coordinate.hpp>
 
 #include <nyan/fail.hpp>
 
 namespace nyan
 {
 
-source_coordinate::source_coordinate(const std::string &filen_arg,
+text_coordinate::text_coordinate(const std::string &filen_arg,
       size_t lineno_arg) :
    my_filen(filen_arg),
    my_lineno(lineno_arg)
@@ -47,7 +47,7 @@ source_coordinate::source_coordinate(const std::string &filen_arg,
    NYAN_FAIL_IFZERO(lineno_arg);
 }
 
-void source_coordinate::print_friendly(std::ostream &out_arg) const
+void text_coordinate::print_friendly(std::ostream &out_arg) const
 {
    out_arg << "line " << my_lineno << " of \"" << my_filen << "\"";
 }

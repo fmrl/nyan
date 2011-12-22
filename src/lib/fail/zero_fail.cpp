@@ -43,7 +43,7 @@ const std::string zero_fail::our_summary(
          "i unexpectedly encountered a variable (${identifier}) "
          "that contains a disallowed value (0) at ${where}.");
 
-zero_fail::zero_fail(const source_coordinate &where_arg,
+zero_fail::zero_fail(const text_coordinate &where_arg,
       const std::string &identifier_arg) :
    fail(where_arg, our_summary)
 {

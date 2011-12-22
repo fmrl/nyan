@@ -34,12 +34,12 @@
 #ifndef NYAN_FAIL_META_HPP_IS_INCLUDED
 #define NYAN_FAIL_META_HPP_IS_INCLUDED
 
-#include <nyan/source_coordinate.hpp>
+#include <nyan/text_coordinate.hpp>
 
 // i use the do...while() pattern here instead of putting the if statement
 // into the inline function because i can avoid invoking NYAN_HERE() in the
 // most likely path. this also avoids stack overflows in
-// source_coordinate::source_coordinate().
+// text_coordinate::text_coordinate().
 #define NYAN_FAIL_IFEMPTY(Container) \
    do \
    { \

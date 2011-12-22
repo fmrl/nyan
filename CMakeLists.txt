@@ -101,7 +101,7 @@ add_library(nyan
 	include/nyan/ptr/reference_counted_object.hpp
 	include/nyan/ptr/trusted_ptr.hpp
 	include/nyan/ptr/untrusted_ptr.hpp
-	include/nyan/source_coordinate.hpp
+	include/nyan/text_coordinate.hpp
 	src/lib/debug/backtrace.cpp
 	src/lib/debug/demangle.cpp
 	src/lib/fail/empty_fail.cpp
@@ -113,7 +113,7 @@ add_library(nyan
 	src/lib/fail/zero_fail.cpp
 	src/lib/panic.cpp
 	src/lib/ptr/ptr_base.cpp
-	src/lib/source_coordinate.cpp
+	src/lib/text_coordinate.cpp
 	)
 
 add_executable(test src/test/test.cpp)

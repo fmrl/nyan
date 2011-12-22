@@ -40,7 +40,7 @@
 namespace nyan
 {
 
-fail_record::fail_record(const source_coordinate &where_arg,
+fail_record::fail_record(const text_coordinate &where_arg,
       const std::string &summary_arg)
 {
    initialize(where_arg, summary_arg.c_str());
@@ -75,7 +75,7 @@ void fail_record::print(std::ostream &out_arg,
    }
 }
 
-void fail_record::initialize(const source_coordinate &where_arg,
+void fail_record::initialize(const text_coordinate &where_arg,
       const std::string &summary_arg)
 {
    insert(fail::where(where_arg));
