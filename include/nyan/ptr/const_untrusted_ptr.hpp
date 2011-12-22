@@ -31,18 +31,16 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
-#ifndef SURELY_PTR_HPP_IS_INCLUDED
-#define SURELY_PTR_HPP_IS_INCLUDED
+#ifndef CONST_UNTRUSTED_PTR_HPP_IS_INCLUDED
+#define CONST_UNTRUSTED_PTR_HPP_IS_INCLUDED
 
-#include <nyan/destroy.hpp>
-#include <nyan/ptr/ptr_base.hpp>
+#include <nyan/ptr/untrusted_ptr.hpp>
 
 namespace nyan
 {
 
 template < class Element >
-class surely_ptr :
-   protected ptr_base
+class const_untrusted_ptr
 {
 
 public:
@@ -51,117 +49,127 @@ public:
 
 private:
 
-   Element *my_ptr;
+   typedef untrusted_ptr< const Element > my_ptr_type;
+
+   my_ptr_type my_ptr;
 
 public:
 
-   surely_ptr(Element * const ptr_arg) throw() :
+   const_untrusted_ptr() throw()
+   {}
+
+   const_untrusted_ptr(const Element * const ptr_arg) throw() :
       my_ptr(ptr_arg)
-   {
-      throw_if_null(ptr_arg);
-      ptr_arg->incref();
-   }
+   {}
 
-   surely_ptr(const surely_ptr &other_arg) throw()  :
+   const_untrusted_ptr(const const_untrusted_ptr &other_arg) throw()  :
       my_ptr(other_arg.my_ptr)
-   {
-      my_ptr->incref();
-   }
+   {}
 
    template < class Other >
-   surely_ptr(const surely_ptr< Other > &other_arg) throw()  :
+   const_untrusted_ptr(const const_untrusted_ptr< Other > &other_arg) throw()  :
       my_ptr(other_arg.my_ptr)
-   {
-      my_ptr->incref();
-   }
+   {}
 
-   ~surely_ptr() throw()
-   {
-      my_ptr->decref();
-      nyan::invoke_destructor(static_cast< ptr_base & >(*this));
-   }
+   template < class Other >
+   const_untrusted_ptr(const untrusted_ptr< Other > &other_arg) throw()  :
+      my_ptr(other_arg.get())
+   {}
 
-   surely_ptr & operator=(const surely_ptr &other_arg) throw()
+   ~const_untrusted_ptr() throw()
+   {}
+
+   const_untrusted_ptr & operator=(const const_untrusted_ptr &other_arg) throw()
    {
-      unchecked_reset(other_arg.my_ptr);
+      my_ptr = other_arg.my_ptr;
       return *this;
    }
 
    template < class Other >
-   surely_ptr & operator=(const surely_ptr< Other > &other_arg) throw()
+   const_untrusted_ptr & operator=(const const_untrusted_ptr< Other > &other_arg) throw()
    {
-      unchecked_reset(other_arg.my_ptr);
+      my_ptr = other_arg.my_ptr;
       return *this;
    }
 
-   surely_ptr & operator=(Element * const ptr_arg) throw()
+   template < class Other >
+   const_untrusted_ptr & operator=(const untrusted_ptr< Other > &other_arg) throw()
    {
-      reset(ptr_arg);
+      my_ptr = other_arg.get();
       return *this;
    }
 
-   void reset(Element * const ptr_arg) throw()
+   const_untrusted_ptr & operator=(const Element * const ptr_arg) throw()
    {
-      throw_if_null(ptr_arg);
-      unchecked_reset(ptr_arg);
-   }
-
-   Element & operator*() const
-   {
-      return *my_ptr;
-   }
-
-   Element * operator->() const
-   {
-      return my_ptr;
-   }
-
-   Element * get() const throw()
-   {
-      return my_ptr;
-   }
-
-   void swap(const surely_ptr &other_arg) throw()
-   {
-      std::swap(my_ptr, other_arg.my_ptr);
-   }
-
-private:
-
-   surely_ptr() throw();
-
-   void unchecked_reset(Element * const ptr_arg) throw()
-   {
-      ptr_arg->incref();
-      my_ptr->decref();
       my_ptr = ptr_arg;
+      return *this;
+   }
+
+   void reset() throw()
+   {
+      my_ptr.reset();
+   }
+
+   void reset(const Element * const ptr_arg) throw()
+   {
+      my_ptr.reset(ptr_arg);
+   }
+
+   const Element & operator*() const
+   {
+      return my_ptr.operator*();
+   }
+
+   const Element * operator->() const
+   {
+      return my_ptr.operator->();
+   }
+
+   const Element * get() const throw()
+   {
+      return my_ptr.get();
+   }
+
+   bool empty() const throw()
+   {
+      return NULL == my_ptr.get();
+   }
+
+   operator bool() const throw()
+   {
+      return empty();
+   }
+
+   void swap(const const_untrusted_ptr &other_arg) throw()
+   {
+      my_ptr.swap(other_arg.my_ptr);
    }
 
 };
 
 template < class Element, class Other >
-bool operator==(const surely_ptr< Element > &lhs_arg,
-      const surely_ptr< Other > & rhs_arg) throw()
+bool operator==(const const_untrusted_ptr< Element > &lhs_arg,
+      const const_untrusted_ptr< Other > & rhs_arg) throw()
 {
    return lhs_arg.get() == rhs_arg.get();
 }
 
 template < class Element, class Other >
-bool operator!=(const surely_ptr< Element > &lhs_arg,
-      const surely_ptr< Other > &rhs_arg) throw()
+bool operator!=(const const_untrusted_ptr< Element > &lhs_arg,
+      const const_untrusted_ptr< Other > &rhs_arg) throw()
 {
    return lhs_arg.get() == rhs_arg.get();
 }
 
 template < class Element >
-bool operator==(const surely_ptr< Element > &lhs_arg,
+bool operator==(const const_untrusted_ptr< Element > &lhs_arg,
       const Element * const rhs_arg) throw()
 {
    return lhs_arg.get() == rhs_arg;
 }
 
 template < class Element >
-bool operator!=(const surely_ptr< Element > &lhs_arg,
+bool operator!=(const const_untrusted_ptr< Element > &lhs_arg,
       const Element * const rhs_arg) throw()
 {
    return lhs_arg.get() != rhs_arg;
@@ -169,28 +177,28 @@ bool operator!=(const surely_ptr< Element > &lhs_arg,
 
 template < class Element >
 bool operator==(const Element * const lhs_arg,
-      surely_ptr<Element> const & rhs_arg) throw()
+      const_untrusted_ptr<Element> const & rhs_arg) throw()
 {
    return rhs_arg == lhs_arg;
 }
 
 template < class Element >
 bool operator!=(const Element * const lhs_arg,
-      const surely_ptr< Element > &rhs_arg) throw()
+      const const_untrusted_ptr< Element > &rhs_arg) throw()
 {
    return rhs_arg != lhs_arg;
 }
 
 template< class Element, class Other >
-bool operator<(const surely_ptr< Element > &lhs_arg,
-      const surely_ptr< Other > &rhs_arg) throw()
+bool operator<(const const_untrusted_ptr< Element > &lhs_arg,
+      const const_untrusted_ptr< Other > &rhs_arg) throw()
 {
    return lhs_arg.get() < rhs_arg.get();
 }
 
 template < class Element >
-void swap(surely_ptr< Element > &lhs_arg,
-      surely_ptr< Element > &rhs_arg) throw()
+void swap(const_untrusted_ptr< Element > &lhs_arg,
+      const_untrusted_ptr< Element > &rhs_arg) throw()
 {
    lhs_arg.swap(rhs_arg);
 }
@@ -198,11 +206,11 @@ void swap(surely_ptr< Element > &lhs_arg,
 template < class Char, class Traits, class Element >
 std::basic_ostream < Char, Traits > &
    operator<<(std::basic_ostream< Char, Traits > &out_arg,
-         const surely_ptr< Element > &ptr_arg)
+         const const_untrusted_ptr< Element > &ptr_arg)
 {
    out_arg << ptr_arg.get();
 }
 
 }
 
-#endif /* SURELY_PTR_HPP_IS_INCLUDED */
+#endif /* CONST_UNTRUSTED_PTR_HPP_IS_INCLUDED */

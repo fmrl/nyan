@@ -129,10 +129,8 @@ public:
 
    };//class field
 
-   // [todo] rename surley_ptr and maybe_ptr to trusted_ptr and
-   // untrusted_ptr.
-   typedef const_surely_ptr< fail_record > const_record_ptr_type;
-   typedef surely_ptr< fail_record > record_ptr_type;
+   typedef const_trusted_ptr< fail_record > const_record_ptr_type;
+   typedef trusted_ptr< fail_record > record_ptr_type;
 
    static const std::string our_type_field_name;
    static const std::string our_summary_field_name;

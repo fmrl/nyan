@@ -31,8 +31,8 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
-#ifndef MAYBE_PTR_HPP_IS_INCLUDED
-#define MAYBE_PTR_HPP_IS_INCLUDED
+#ifndef UNTRUSTED_PTR_HPP_IS_INCLUDED
+#define UNTRUSTED_PTR_HPP_IS_INCLUDED
 
 #include <nyan/destroy.hpp>
 #include <nyan/ptr/ptr_base.hpp>
@@ -45,7 +45,7 @@ namespace nyan
 {
 
 template < class Element >
-class maybe_ptr :
+class untrusted_ptr :
    protected ptr_base
 {
 
@@ -61,41 +61,41 @@ private:
 
 public:
 
-   maybe_ptr() throw()
+   untrusted_ptr() throw()
    {}
 
-   maybe_ptr(Element * const ptr_arg) throw() :
+   untrusted_ptr(Element * const ptr_arg) throw() :
       my_ptr(ptr_arg)
    {}
 
-   maybe_ptr(const maybe_ptr &other_arg) throw()  :
+   untrusted_ptr(const untrusted_ptr &other_arg) throw()  :
       my_ptr(other_arg.my_ptr)
    {}
 
    template < class Other >
-   maybe_ptr(const maybe_ptr< Other > &other_arg) throw()  :
+   untrusted_ptr(const untrusted_ptr< Other > &other_arg) throw()  :
       my_ptr(other_arg.my_ptr)
    {}
 
-   ~maybe_ptr() throw()
+   ~untrusted_ptr() throw()
    {
       nyan::invoke_destructor(static_cast< ptr_base & >(*this));
    }
 
-   maybe_ptr & operator=(const maybe_ptr &other_arg) throw()
+   untrusted_ptr & operator=(const untrusted_ptr &other_arg) throw()
    {
       my_ptr = other_arg.my_ptr;
       return *this;
    }
 
    template < class Other >
-   maybe_ptr & operator=(const maybe_ptr< Other > &other_arg) throw()
+   untrusted_ptr & operator=(const untrusted_ptr< Other > &other_arg) throw()
    {
       my_ptr = other_arg.my_ptr;
       return *this;
    }
 
-   maybe_ptr & operator=(Element * const ptr_arg) throw()
+   untrusted_ptr & operator=(Element * const ptr_arg) throw()
    {
       my_ptr = ptr_arg;
       return *this;
@@ -138,7 +138,7 @@ public:
       return empty();
    }
 
-   void swap(const maybe_ptr &other_arg) throw()
+   void swap(const untrusted_ptr &other_arg) throw()
    {
       my_ptr.swap(other_arg.my_ptr);
    }
@@ -146,28 +146,28 @@ public:
 };
 
 template < class Element, class Other >
-bool operator==(const maybe_ptr< Element > &lhs_arg,
-      const maybe_ptr< Other > & rhs_arg) throw()
+bool operator==(const untrusted_ptr< Element > &lhs_arg,
+      const untrusted_ptr< Other > & rhs_arg) throw()
 {
    return lhs_arg.get() == rhs_arg.get();
 }
 
 template < class Element, class Other >
-bool operator!=(const maybe_ptr< Element > &lhs_arg,
-      const maybe_ptr< Other > &rhs_arg) throw()
+bool operator!=(const untrusted_ptr< Element > &lhs_arg,
+      const untrusted_ptr< Other > &rhs_arg) throw()
 {
    return lhs_arg.get() == rhs_arg.get();
 }
 
 template < class Element >
-bool operator==(const maybe_ptr< Element > &lhs_arg,
+bool operator==(const untrusted_ptr< Element > &lhs_arg,
       const Element * const rhs_arg) throw()
 {
    return lhs_arg.get() == rhs_arg;
 }
 
 template < class Element >
-bool operator!=(const maybe_ptr< Element > &lhs_arg,
+bool operator!=(const untrusted_ptr< Element > &lhs_arg,
       const Element * const rhs_arg) throw()
 {
    return lhs_arg.get() != rhs_arg;
@@ -175,28 +175,28 @@ bool operator!=(const maybe_ptr< Element > &lhs_arg,
 
 template < class Element >
 bool operator==(const Element * const lhs_arg,
-      maybe_ptr<Element> const & rhs_arg) throw()
+      untrusted_ptr<Element> const & rhs_arg) throw()
 {
    return rhs_arg == lhs_arg;
 }
 
 template < class Element >
 bool operator!=(const Element * const lhs_arg,
-      const maybe_ptr< Element > &rhs_arg) throw()
+      const untrusted_ptr< Element > &rhs_arg) throw()
 {
    return rhs_arg != lhs_arg;
 }
 
 template< class Element, class Other >
-bool operator<(const maybe_ptr< Element > &lhs_arg,
-      const maybe_ptr< Other > &rhs_arg) throw()
+bool operator<(const untrusted_ptr< Element > &lhs_arg,
+      const untrusted_ptr< Other > &rhs_arg) throw()
 {
    return lhs_arg.get() < rhs_arg.get();
 }
 
 template < class Element >
-void swap(maybe_ptr< Element > &lhs_arg,
-      maybe_ptr< Element > &rhs_arg) throw()
+void swap(untrusted_ptr< Element > &lhs_arg,
+      untrusted_ptr< Element > &rhs_arg) throw()
 {
    lhs_arg.swap(rhs_arg);
 }
@@ -204,7 +204,7 @@ void swap(maybe_ptr< Element > &lhs_arg,
 template < class Char, class Traits, class Element >
 std::basic_ostream < Char, Traits > &
    operator<<(std::basic_ostream< Char, Traits > &out_arg,
-         const maybe_ptr< Element > &ptr_arg)
+         const untrusted_ptr< Element > &ptr_arg)
 {
    out_arg << ptr_arg.get();
 }
@@ -227,4 +227,4 @@ void intrusive_ptr_release(Value * const ptr_arg)
 
 }
 
-#endif /* MAYBE_PTR_HPP_IS_INCLUDED */
+#endif /* UNTRUSTED_PTR_HPP_IS_INCLUDED */
