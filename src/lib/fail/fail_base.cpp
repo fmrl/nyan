@@ -244,7 +244,9 @@ const fail::field fail::backtrace(const ::nyan::backtrace &bt_arg)
 
 void fail::initialize()
 {
-   insert(type(typeid(*this)));
+   // i cannot correctly detect the type here with the **typeid()** operator
+   // because this method is called by the constructor. that will need to be
+   // done in derived classes, unfortunately.
    insert(backtrace(::nyan::backtrace()));
 }
 

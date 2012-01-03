@@ -46,6 +46,7 @@ not_found_fail::not_found_fail(const text_coordinate &where_arg,
       const std::string &term_arg) :
    fail(where_arg, our_summary)
 {
+   insert(type(typeid(*this)));
    initialize(term_arg.c_str());
 }
 

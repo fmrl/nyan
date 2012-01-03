@@ -9,4 +9,3 @@ todo list for nyan
   - cow strings
   - wchar_t support
 - implement nyan::allocator
-- fail.type field gives the wrong (base) type.

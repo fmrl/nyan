@@ -55,6 +55,7 @@ zero_fail::~zero_fail() throw()
 
 void zero_fail::initialize(const std::string &identifier_arg)
 {
+   insert(type(typeid(*this)));
    insert(identifier(identifier_arg));
 }
 

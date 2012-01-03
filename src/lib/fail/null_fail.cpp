@@ -47,6 +47,7 @@ null_fail::null_fail(const text_coordinate &where_arg,
       const std::string &identifier_arg) :
    fail(where_arg, our_summary)
 {
+   insert(type(typeid(*this)));
    initialize(identifier_arg);
 }
 

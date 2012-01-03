@@ -54,6 +54,7 @@ empty_fail::~empty_fail() throw()
 
 void empty_fail::initialize(const std::string &identifier_arg)
 {
+   insert(type(typeid(*this)));
    insert(identifier(identifier_arg));
 }
 
