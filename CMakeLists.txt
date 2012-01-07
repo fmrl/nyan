@@ -102,6 +102,7 @@ add_library(nyan
 	include/nyan/ptr/trusted_ptr.hpp
 	include/nyan/ptr/untrusted_ptr.hpp
 	include/nyan/text_coordinate.hpp
+	include/nyan/yaml.hpp
 	src/lib/debug/backtrace.cpp
 	src/lib/debug/demangle.cpp
 	src/lib/fail/empty_fail.cpp

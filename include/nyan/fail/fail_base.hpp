@@ -37,11 +37,7 @@
 #include <nyan/debug.hpp>
 #include <nyan/ptr.hpp>
 #include <nyan/text_coordinate.hpp>
-
-#include <nyan/config.h>
-#if NYAN_CAN_HAS_YAML
-#     include <yaml-cpp/yaml.h>
-#endif //NYAN_CAN_HAS_YAML
+#include <nyan/yaml.hpp>
 
 #include <boost/mpl/assert.hpp>
 #include <boost/regex.hpp>

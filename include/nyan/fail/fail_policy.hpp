@@ -39,11 +39,6 @@
 
 #include <nyan/fail/fail_base.hpp>
 
-#include <nyan/config.h>
-#if NYAN_CAN_HAS_YAML
-#     include <yaml-cpp/yaml.h>
-#endif // NYAN_CAN_HAS_YAMLCPP
-
 #include <boost/mpl/begin.hpp>
 #include <boost/mpl/deref.hpp>
 #include <boost/mpl/end.hpp>

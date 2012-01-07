@@ -31,43 +31,12 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
-#include <nyan/fail/fail_policy.hpp>
+#ifndef NYAN_YAML_HPP_IS_INCLUDED
+#define NYAN_YAML_HPP_IS_INCLUDED
 
-#include <nyan/fail.hpp>
-#include <nyan/yaml.hpp>
-
-namespace nyan
-{
-
-void fail_policy::operator()(const std::exception &fail_arg) const
-{
-   std::cerr << "# unexpected exception is unexpected. std::exception::what() says, \""
-         << fail_arg.what() << ".\"\n";
-}
-
-void fail_policy::operator()(const nyan::fail &fail_arg) const
-{
+#include <nyan/config.h>
 #if NYAN_CAN_HAS_YAML
-   YAML::Emitter y;
-   y << fail_arg;
-   if (y.good())
-   {
-      std::cerr << "# unexpected fail is unexpected; the yaml speaks:\n";
-      std::cerr << y.c_str();
-   }
-   else
-   {
-      std::cerr << "# unexpected fail is unexpected. std::fail::what() says, \""
-            << fail_arg.what() << ".\"\n";
-      std::cerr
-         << "# unfortunately, i failed to provide details; the yaml emitter says, \""
-         << y.GetLastError() << "\"\n";
-   }
-#else
-   std::cerr << "# unexpected fail is unexpected. std::fail::what() says, \""
-         << fail_arg.what()
-         << ".\"\n# if you'd like more details, please consider compiling libnyan with yaml support enabled.\n";
-#endif
-}
+#     include <yaml-cpp/yaml.h>
+#endif // NYAN_CAN_HAS_YAMLCPP
 
-}
+#endif /* NYAN_YAML_HPP_IS_INCLUDED */

@@ -9,3 +9,4 @@ todo list for nyan
   - cow strings
   - wchar_t support
 - implement nyan::allocator
+- replace #if NYAN_CAN_HAS_YAML with boost:mpl:if_?.

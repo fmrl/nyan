@@ -36,11 +36,7 @@
 
 #include <nyan/fail.hpp>
 #include <nyan/text_coordinate.hpp>
-
-#include <nyan/config.h>
-#if NYAN_CAN_HAS_YAML
-#     include <yaml-cpp/yaml.h>
-#endif // NYAN_CAN_HAS_YAMLCPP
+#include <nyan/yaml.hpp>
 
 #include <map>
 #include <string>
