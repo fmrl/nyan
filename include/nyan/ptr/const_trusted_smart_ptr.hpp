@@ -31,16 +31,16 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
-#ifndef CONST_UNTRUSTED_PTR_HPP_IS_INCLUDED
-#define CONST_UNTRUSTED_PTR_HPP_IS_INCLUDED
+#ifndef NYAN_CONST_TRUSTED_SMART_PTR_HPP_IS_INCLUDED
+#define NYAN_CONST_TRUSTED_SMART_PTR_HPP_IS_INCLUDED
 
-#include <nyan/ptr/untrusted_ptr.hpp>
+#include <nyan/ptr/trusted_smart_ptr.hpp>
 
 namespace nyan
 {
 
 template < class Element >
-class const_untrusted_ptr
+class const_trusted_smart_ptr
 {
 
 public:
@@ -49,65 +49,57 @@ public:
 
 private:
 
-   typedef untrusted_ptr< const Element > my_ptr_type;
+   typedef trusted_smart_ptr< const Element > my_ptr_type;
 
    my_ptr_type my_ptr;
 
 public:
 
-   const_untrusted_ptr() throw()
-   {}
-
-   const_untrusted_ptr(const Element * const ptr_arg) throw() :
+   const_trusted_smart_ptr(const Element * const ptr_arg) throw() :
       my_ptr(ptr_arg)
    {}
 
-   const_untrusted_ptr(const const_untrusted_ptr &other_arg) throw()  :
+   const_trusted_smart_ptr(const const_trusted_smart_ptr &other_arg) throw()  :
       my_ptr(other_arg.my_ptr)
    {}
 
    template < class Other >
-   const_untrusted_ptr(const const_untrusted_ptr< Other > &other_arg) throw()  :
+   const_trusted_smart_ptr(const const_trusted_smart_ptr< Other > &other_arg) throw()  :
       my_ptr(other_arg.my_ptr)
    {}
 
    template < class Other >
-   const_untrusted_ptr(const untrusted_ptr< Other > &other_arg) throw()  :
+   const_trusted_smart_ptr(const trusted_smart_ptr< Other > &other_arg) throw()  :
       my_ptr(other_arg.get())
    {}
 
-   ~const_untrusted_ptr() throw()
+   ~const_trusted_smart_ptr() throw()
    {}
 
-   const_untrusted_ptr & operator=(const const_untrusted_ptr &other_arg) throw()
+   const_trusted_smart_ptr & operator=(const const_trusted_smart_ptr &other_arg) throw()
    {
       my_ptr = other_arg.my_ptr;
       return *this;
    }
 
    template < class Other >
-   const_untrusted_ptr & operator=(const const_untrusted_ptr< Other > &other_arg) throw()
+   const_trusted_smart_ptr & operator=(const const_trusted_smart_ptr< Other > &other_arg) throw()
    {
       my_ptr = other_arg.my_ptr;
       return *this;
    }
 
    template < class Other >
-   const_untrusted_ptr & operator=(const untrusted_ptr< Other > &other_arg) throw()
+   const_trusted_smart_ptr & operator=(const trusted_smart_ptr< Other > &other_arg) throw()
    {
       my_ptr = other_arg.get();
       return *this;
    }
 
-   const_untrusted_ptr & operator=(const Element * const ptr_arg) throw()
+   const_trusted_smart_ptr & operator=(const Element * const ptr_arg) throw()
    {
       my_ptr = ptr_arg;
       return *this;
-   }
-
-   void reset() throw()
-   {
-      my_ptr.reset();
    }
 
    void reset(const Element * const ptr_arg) throw()
@@ -130,46 +122,40 @@ public:
       return my_ptr.get();
    }
 
-   bool empty() const throw()
-   {
-      return NULL == my_ptr.get();
-   }
-
-   operator bool() const throw()
-   {
-      return empty();
-   }
-
-   void swap(const const_untrusted_ptr &other_arg) throw()
+   void swap(const const_trusted_smart_ptr &other_arg) throw()
    {
       my_ptr.swap(other_arg.my_ptr);
    }
 
+private:
+
+   const_trusted_smart_ptr() throw();
+
 };
 
 template < class Element, class Other >
-bool operator==(const const_untrusted_ptr< Element > &lhs_arg,
-      const const_untrusted_ptr< Other > & rhs_arg) throw()
+bool operator==(const const_trusted_smart_ptr< Element > &lhs_arg,
+      const const_trusted_smart_ptr< Other > & rhs_arg) throw()
 {
    return lhs_arg.get() == rhs_arg.get();
 }
 
 template < class Element, class Other >
-bool operator!=(const const_untrusted_ptr< Element > &lhs_arg,
-      const const_untrusted_ptr< Other > &rhs_arg) throw()
+bool operator!=(const const_trusted_smart_ptr< Element > &lhs_arg,
+      const const_trusted_smart_ptr< Other > &rhs_arg) throw()
 {
    return lhs_arg.get() == rhs_arg.get();
 }
 
 template < class Element >
-bool operator==(const const_untrusted_ptr< Element > &lhs_arg,
+bool operator==(const const_trusted_smart_ptr< Element > &lhs_arg,
       const Element * const rhs_arg) throw()
 {
    return lhs_arg.get() == rhs_arg;
 }
 
 template < class Element >
-bool operator!=(const const_untrusted_ptr< Element > &lhs_arg,
+bool operator!=(const const_trusted_smart_ptr< Element > &lhs_arg,
       const Element * const rhs_arg) throw()
 {
    return lhs_arg.get() != rhs_arg;
@@ -177,28 +163,28 @@ bool operator!=(const const_untrusted_ptr< Element > &lhs_arg,
 
 template < class Element >
 bool operator==(const Element * const lhs_arg,
-      const_untrusted_ptr<Element> const & rhs_arg) throw()
+      const_trusted_smart_ptr<Element> const & rhs_arg) throw()
 {
    return rhs_arg == lhs_arg;
 }
 
 template < class Element >
 bool operator!=(const Element * const lhs_arg,
-      const const_untrusted_ptr< Element > &rhs_arg) throw()
+      const const_trusted_smart_ptr< Element > &rhs_arg) throw()
 {
    return rhs_arg != lhs_arg;
 }
 
 template< class Element, class Other >
-bool operator<(const const_untrusted_ptr< Element > &lhs_arg,
-      const const_untrusted_ptr< Other > &rhs_arg) throw()
+bool operator<(const const_trusted_smart_ptr< Element > &lhs_arg,
+      const const_trusted_smart_ptr< Other > &rhs_arg) throw()
 {
    return lhs_arg.get() < rhs_arg.get();
 }
 
 template < class Element >
-void swap(const_untrusted_ptr< Element > &lhs_arg,
-      const_untrusted_ptr< Element > &rhs_arg) throw()
+void swap(const_trusted_smart_ptr< Element > &lhs_arg,
+      const_trusted_smart_ptr< Element > &rhs_arg) throw()
 {
    lhs_arg.swap(rhs_arg);
 }
@@ -206,11 +192,11 @@ void swap(const_untrusted_ptr< Element > &lhs_arg,
 template < class Char, class Traits, class Element >
 std::basic_ostream < Char, Traits > &
    operator<<(std::basic_ostream< Char, Traits > &out_arg,
-         const const_untrusted_ptr< Element > &ptr_arg)
+         const const_trusted_smart_ptr< Element > &ptr_arg)
 {
    out_arg << ptr_arg.get();
 }
 
 }
 
-#endif /* CONST_UNTRUSTED_PTR_HPP_IS_INCLUDED */
+#endif /* NYAN_CONST_TRUSTED_SMART_PTR_HPP_IS_INCLUDED */

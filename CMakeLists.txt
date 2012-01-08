@@ -95,12 +95,12 @@ add_library(nyan
 	include/nyan/fail/zero_fail.hpp
 	include/nyan/panic.hpp
 	include/nyan/ptr.hpp
-	include/nyan/ptr/const_trusted_ptr.hpp
-	include/nyan/ptr/const_untrusted_ptr.hpp
+	include/nyan/ptr/const_trusted_smart_ptr.hpp
+	include/nyan/ptr/const_untrusted_smart_ptr.hpp
 	include/nyan/ptr/ptr_base.hpp
 	include/nyan/ptr/reference_counted_object.hpp
-	include/nyan/ptr/trusted_ptr.hpp
-	include/nyan/ptr/untrusted_ptr.hpp
+	include/nyan/ptr/trusted_smart_ptr.hpp
+	include/nyan/ptr/untrusted_smart_ptr.hpp
 	include/nyan/text_coordinate.hpp
 	include/nyan/yaml.hpp
 	src/lib/debug/backtrace.cpp

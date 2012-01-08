@@ -125,8 +125,8 @@ public:
 
    };//class field
 
-   typedef const_trusted_ptr< fail_record > const_record_ptr_type;
-   typedef trusted_ptr< fail_record > record_ptr_type;
+   typedef const_trusted_smart_ptr< fail_record > const_record_ptr_type;
+   typedef trusted_smart_ptr< fail_record > record_ptr_type;
 
    static const std::string our_type_field_name;
    static const std::string our_summary_field_name;

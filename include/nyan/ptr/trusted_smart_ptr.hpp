@@ -31,8 +31,8 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
-#ifndef TRUSTED_PTR_HPP_IS_INCLUDED
-#define TRUSTED_PTR_HPP_IS_INCLUDED
+#ifndef NYAN_TRUSTED_SMART_PTR_HPP_IS_INCLUDED
+#define NYAN_TRUSTED_SMART_PTR_HPP_IS_INCLUDED
 
 #include <nyan/destroy.hpp>
 #include <nyan/ptr/ptr_base.hpp>
@@ -41,7 +41,7 @@ namespace nyan
 {
 
 template < class Element >
-class trusted_ptr :
+class trusted_smart_ptr :
    protected ptr_base
 {
 
@@ -55,46 +55,46 @@ private:
 
 public:
 
-   trusted_ptr(Element * const ptr_arg) throw() :
+   trusted_smart_ptr(Element * const ptr_arg) throw() :
       my_ptr(ptr_arg)
    {
       throw_if_null(ptr_arg);
       ptr_arg->incref();
    }
 
-   trusted_ptr(const trusted_ptr &other_arg) throw()  :
+   trusted_smart_ptr(const trusted_smart_ptr &other_arg) throw()  :
       my_ptr(other_arg.my_ptr)
    {
       my_ptr->incref();
    }
 
    template < class Other >
-   trusted_ptr(const trusted_ptr< Other > &other_arg) throw()  :
+   trusted_smart_ptr(const trusted_smart_ptr< Other > &other_arg) throw()  :
       my_ptr(other_arg.my_ptr)
    {
       my_ptr->incref();
    }
 
-   ~trusted_ptr() throw()
+   ~trusted_smart_ptr() throw()
    {
       my_ptr->decref();
       nyan::invoke_destructor(static_cast< ptr_base & >(*this));
    }
 
-   trusted_ptr & operator=(const trusted_ptr &other_arg) throw()
+   trusted_smart_ptr & operator=(const trusted_smart_ptr &other_arg) throw()
    {
       unchecked_reset(other_arg.my_ptr);
       return *this;
    }
 
    template < class Other >
-   trusted_ptr & operator=(const trusted_ptr< Other > &other_arg) throw()
+   trusted_smart_ptr & operator=(const trusted_smart_ptr< Other > &other_arg) throw()
    {
       unchecked_reset(other_arg.my_ptr);
       return *this;
    }
 
-   trusted_ptr & operator=(Element * const ptr_arg) throw()
+   trusted_smart_ptr & operator=(Element * const ptr_arg) throw()
    {
       reset(ptr_arg);
       return *this;
@@ -121,14 +121,14 @@ public:
       return my_ptr;
    }
 
-   void swap(const trusted_ptr &other_arg) throw()
+   void swap(const trusted_smart_ptr &other_arg) throw()
    {
       std::swap(my_ptr, other_arg.my_ptr);
    }
 
 private:
 
-   trusted_ptr() throw();
+   trusted_smart_ptr() throw();
 
    void unchecked_reset(Element * const ptr_arg) throw()
    {
@@ -140,28 +140,28 @@ private:
 };
 
 template < class Element, class Other >
-bool operator==(const trusted_ptr< Element > &lhs_arg,
-      const trusted_ptr< Other > & rhs_arg) throw()
+bool operator==(const trusted_smart_ptr< Element > &lhs_arg,
+      const trusted_smart_ptr< Other > & rhs_arg) throw()
 {
    return lhs_arg.get() == rhs_arg.get();
 }
 
 template < class Element, class Other >
-bool operator!=(const trusted_ptr< Element > &lhs_arg,
-      const trusted_ptr< Other > &rhs_arg) throw()
+bool operator!=(const trusted_smart_ptr< Element > &lhs_arg,
+      const trusted_smart_ptr< Other > &rhs_arg) throw()
 {
    return lhs_arg.get() == rhs_arg.get();
 }
 
 template < class Element >
-bool operator==(const trusted_ptr< Element > &lhs_arg,
+bool operator==(const trusted_smart_ptr< Element > &lhs_arg,
       const Element * const rhs_arg) throw()
 {
    return lhs_arg.get() == rhs_arg;
 }
 
 template < class Element >
-bool operator!=(const trusted_ptr< Element > &lhs_arg,
+bool operator!=(const trusted_smart_ptr< Element > &lhs_arg,
       const Element * const rhs_arg) throw()
 {
    return lhs_arg.get() != rhs_arg;
@@ -169,28 +169,28 @@ bool operator!=(const trusted_ptr< Element > &lhs_arg,
 
 template < class Element >
 bool operator==(const Element * const lhs_arg,
-      trusted_ptr<Element> const & rhs_arg) throw()
+      trusted_smart_ptr<Element> const & rhs_arg) throw()
 {
    return rhs_arg == lhs_arg;
 }
 
 template < class Element >
 bool operator!=(const Element * const lhs_arg,
-      const trusted_ptr< Element > &rhs_arg) throw()
+      const trusted_smart_ptr< Element > &rhs_arg) throw()
 {
    return rhs_arg != lhs_arg;
 }
 
 template< class Element, class Other >
-bool operator<(const trusted_ptr< Element > &lhs_arg,
-      const trusted_ptr< Other > &rhs_arg) throw()
+bool operator<(const trusted_smart_ptr< Element > &lhs_arg,
+      const trusted_smart_ptr< Other > &rhs_arg) throw()
 {
    return lhs_arg.get() < rhs_arg.get();
 }
 
 template < class Element >
-void swap(trusted_ptr< Element > &lhs_arg,
-      trusted_ptr< Element > &rhs_arg) throw()
+void swap(trusted_smart_ptr< Element > &lhs_arg,
+      trusted_smart_ptr< Element > &rhs_arg) throw()
 {
    lhs_arg.swap(rhs_arg);
 }
@@ -198,11 +198,11 @@ void swap(trusted_ptr< Element > &lhs_arg,
 template < class Char, class Traits, class Element >
 std::basic_ostream < Char, Traits > &
    operator<<(std::basic_ostream< Char, Traits > &out_arg,
-         const trusted_ptr< Element > &ptr_arg)
+         const trusted_smart_ptr< Element > &ptr_arg)
 {
    out_arg << ptr_arg.get();
 }
 
 }
 
-#endif /* TRUSTED_PTR_HPP_IS_INCLUDED */
+#endif /* NYAN_TRUSTED_SMART_PTR_HPP_IS_INCLUDED */
