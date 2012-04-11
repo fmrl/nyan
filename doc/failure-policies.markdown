@@ -129,7 +129,7 @@ all rights reserved.
 [4]:http://github.com/fmrl/nyan
 [5]:http://www.boost.org/doc/libs/release/libs/mpl/doc/index.html
 
-##朝露fmrl
+##fmrl
 
 
 
