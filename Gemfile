@@ -3,5 +3,5 @@
 source 'http://www.rubygems.org'
 
 gem 'rake'
-gem 'rubrstmp', :path => '/home/zoarre/work/rubrstmp'
+gem 'rubrstmp', :git => "git://github.com/fmrl/rubrstmp.git"
 
