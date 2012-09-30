@@ -32,49 +32,48 @@
 // 
 // ,$
 
-#ifndef NYAN_FAIL_META_HPP_IS_INCLUDED
-#define NYAN_FAIL_META_HPP_IS_INCLUDED
+#ifndef NYAN_ERRNO_FAIL_HPP_IS_INCLUDED
+#define NYAN_ERRNO_FAIL_HPP_IS_INCLUDED
 
-#include <nyan/text_coordinate.hpp>
+#include <nyan/fail/fail_base.hpp>
 
-// i use the do...while() pattern here instead of putting the if statement
-// into the inline function because i can avoid invoking NYAN_HERE() in the
-// most likely path. this also avoids stack overflows in
-// text_coordinate::text_coordinate().
-#define NYAN_FAIL_IFEMPTY(Container) \
-   do \
-   { \
-      if (::nyan::empty_fail::check(Container)) \
-         throw ::nyan::empty_fail(NYAN_HERE(), #Container); \
-   } \
-   while (0)
+#include <cerrno>
 
-#define NYAN_FAIL_IFNULL(Ptr) \
-   do \
-   { \
-      if (::nyan::null_fail::check(Ptr)) \
-         throw ::nyan::null_fail(NYAN_HERE(), #Ptr); \
-   } \
-   while (0)
+namespace nyan
+{
 
-#define NYAN_FAIL_IFZERO(Value) \
-   do \
-   { \
-      if (::nyan::zero_fail::check(Value)) \
-         throw ::nyan::zero_fail(NYAN_HERE(), #Value); \
-   } \
-   while (0)
+class errno_fail :
+   public fail
+{
+private:
 
-// [mlr][todo] i should reevaluate the names of the other macros to
-// describe what will be thrown.
-#define NYAN_ERRNOFAIL_IFNZ(FunctionName, Args) \
-   do \
-   { \
-      if (0 != FunctionName Args) \
-         throw ::nyan::errno_fail(NYAN_HERE(), #FunctionName); \
-   } \
-   while (0)
+   static const std::string our_function_name;
+   static const std::string our_errno_name;
+   static const std::string our_strerror_name;
+   static const std::string our_summary;
 
-#endif // NYAN_FAIL_META_HPP_IS_INCLUDED
+public:
+
+   errno_fail(const nyan::text_coordinate &where_arg,
+         const std::string &funcn_arg, int errno_arg);
+
+   errno_fail(const nyan::text_coordinate &where_arg,
+         const std::string &funcn_arg);
+
+   virtual ~errno_fail() throw();
+
+private:
+
+   static const field function(const std::string &name_arg);
+   static const field errno_value(int errno_arg);
+   static const field strerror(int errno_arg);
+
+   void initialize(const std::string &funcn_arg, int errno_arg);
+
+};
+
+}//namespace nyan
+
+#endif // NYAN_ERRNO_FAIL_HPP_IS_INCLUDED
 
 // $vim:23: vim:set sts=3 sw=3 et:,$

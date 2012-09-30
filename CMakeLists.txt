@@ -63,7 +63,7 @@ set_cache_builtin(STRING CMAKE_CXX_FLAGS ${DEFAULT_CFLAGS})
 find_package(Threads REQUIRED)
 
 include(cmakes/boost.cmake)
-find_boost(1.48.0 REQUIRED COMPONENTS thread regex)
+find_boost(1.48.0 REQUIRED COMPONENTS thread regex random)
 
 include(cmakes/yaml-cpp.cmake)
 
@@ -94,6 +94,7 @@ add_library(nyan
 	include/nyan/debug/demangle.hpp
 	include/nyan/fail.hpp
 	include/nyan/fail/empty_fail.hpp
+    include/nyan/fail/errno_fail.hpp
 	include/nyan/fail/fail_base.hpp
 	include/nyan/fail/fail_meta.hpp
 	include/nyan/fail/fail_policy.hpp
@@ -116,6 +117,7 @@ add_library(nyan
 	src/lib/debug/backtrace.cpp
 	src/lib/debug/demangle.cpp
 	src/lib/fail/empty_fail.cpp
+    src/lib/fail/errno_fail.cpp
 	src/lib/fail/fail_base.cpp
 	src/lib/fail/fail_policy.cpp
 	src/lib/fail/fail_record.cpp

@@ -32,18 +32,72 @@
 // 
 // ,$
 
-#ifndef NYAN_FAIL_HPP_IS_INCLUDED
-#define NYAN_FAIL_HPP_IS_INCLUDED
+#define STRERROR_BUFLEN 256
 
-#include <nyan/fail/empty_fail.hpp>
 #include <nyan/fail/errno_fail.hpp>
-#include <nyan/fail/fail_meta.hpp>
-#include <nyan/fail/fail_policy.hpp>
-#include <nyan/fail/fail_record.hpp>
-#include <nyan/fail/not_found_fail.hpp>
-#include <nyan/fail/null_fail.hpp>
-#include <nyan/fail/zero_fail.hpp>
 
-#endif // NYAN_FAIL_HPP_IS_INCLUDED
+#include <nyan/fail.hpp>
+
+namespace nyan
+{
+
+const std::string errno_fail::our_function_name("function");
+const std::string errno_fail::our_errno_name("errno");
+const std::string errno_fail::our_strerror_name("strerror");
+const std::string errno_fail::our_summary(
+         "i encountered an error (${strerror}) while using the "
+            "${function} function.");
+
+errno_fail::errno_fail(const text_coordinate &where_arg,
+      const std::string &funcn_arg, int errno_arg) :
+   fail(where_arg, our_summary)
+{
+   // [mlr][todo] can't this be done in initialize()?
+   insert(type(typeid(*this)));
+   initialize(funcn_arg, errno_arg);
+}
+errno_fail::errno_fail(const text_coordinate &where_arg,
+      const std::string &funcn_arg) :
+   fail(where_arg, our_summary)
+{
+   // [mlr][todo] can't this be done in initialize()?
+   insert(type(typeid(*this)));
+   initialize(funcn_arg, errno);
+}
+
+errno_fail::~errno_fail() throw()
+{}
+
+void errno_fail::initialize(const std::string &funcn_arg, int errno_arg)
+{
+   insert(function(funcn_arg));
+   insert(errno_value(errno_arg));
+   insert(strerror(errno_arg));
+}
+
+const errno_fail::field
+      errno_fail::function(const std::string &name_arg)
+{
+   return field(our_function_name, name_arg);
+}
+
+const errno_fail::field
+      errno_fail::errno_value(int errno_arg)
+{
+   return field(our_errno_name, errno_arg);
+}
+
+const errno_fail::field
+      errno_fail::strerror(int errno_arg)
+{
+   char s[STRERROR_BUFLEN + 1];
+   // [mlr] we expect the XSI compliant version of strerror_r().
+   if (0 == strerror_r(errno_arg, s, STRERROR_BUFLEN))
+      return field(our_strerror_name, s);
+   else
+      return field(our_strerror_name, "*strerror_r() failed*");
+}
+
+}
 
 // $vim:23: vim:set sts=3 sw=3 et:,$

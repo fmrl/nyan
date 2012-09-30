@@ -35,66 +35,129 @@
 #ifndef NYAN_RANDOM_HPP_IS_INCLUDED
 #define NYAN_RANDOM_HPP_IS_INCLUDED
 
+#include <boost/random/random_device.hpp>
+#include <boost/random/mersenne_twister.hpp>
+#include <boost/random/uniform_int_distribution.hpp>
 #include <boost/thread/tss.hpp>
 
 namespace nyan
 {
 
+namespace details
+{
+
+template < class Value, class Engine >
+void default_pop_random(Value &result_arg, Engine &engine_arg)
+{
+   // [mlr][todo] this should be a nyan exception.
+   throw std::logic_error("unimplemented");
+}
+
+template < class Engine >
+void pop_uniform_random(int &result_arg, Engine &engine_arg)
+{
+   engine_arg.pop(result_arg,
+         boost::random::uniform_int_distribution< int >());
+}
+
+template < class Engine >
+void pop_uniform_random(int &result_arg, Engine &engine_arg, int min_arg,
+      int max_arg)
+{
+   engine_arg.pop(result_arg,
+         boost::random::uniform_int_distribution< int >(min_arg, max_arg));
+}
+
+}// namespace details
+
 // [mlr][todo] i would like to put Distribution and Engine into random_traits.
-template <
-   typename Value,
-   class Distribution = boost::uniform_int< Value >,
-   class Engine = boost::mt19937 >
+template < class Engine >
 class basic_random
 {
 public:
 
-   typedef Value value_type;
    typedef Engine engine_type;
-   typedef Distribution distribution_type;
+   typedef typename engine_type::result_type seed_type;
 
-   // [mlr][todo] i would like to be able to pop more than one type of
-   // value off of the generator.
-   static void pop(value_type &result_arg)
-   {
-      this_type *p = our_tss.get();
-      if (NULL == p)
-         p = initialize_tss();
-      result_arg = (*p->my_boost_rng)();
-   }
+   private: typedef basic_random< Engine > this_type;
+   private: typedef boost::thread_specific_ptr< this_type > tss_type;
 
-private:
+   private: static tss_type our_tss;
 
-   typedef basic_random< Value, Distribution, Engine > this_type;
-   typedef boost::thread_specific_ptr< this_type > tss_type;
-   typedef boost::variate_generator< engine_type, distribution_type >
-      boost_rng_type;
-
-   static tss_type our_tss;
-
-   engine_type my_engine;
-   distribution_type my_distribution;
-   std::auto_ptr< boost_rng_type > my_boost_rng;
+   private: engine_type my_engine;
 
 public:
 
    // [mlr][todo] what about a seed?
-   basic_random() :
-      my_distribution(std::numeric_limits< value_type >::min(),
-            std::numeric_limits< value_type >::max())
+   basic_random()
    {
-      // TODO: seed the rng with a truly random value.
-      // TODO: make the seed specifiable for reproducability in testing.
-      // TODO: confirm the following:
-      // i have to initialize the random generator /after/ the distribution
-      // and i'm not guaranteed that if they're both in the initializer list.
-      my_boost_rng.reset(new boost_rng_type(my_engine, my_distribution));
+      seed(generate_seed());
+   }
+
+   basic_random(seed_type seed_arg)
+   {
+      seed(seed_arg);
+   }
+
+   static seed_type generate_seed()
+   {
+      typedef boost::random::random_device rng_type;
+      rng_type g;
+      boost::random::uniform_int_distribution< rng_type::result_type > d;
+      rng_type::result_type n = d(g);
+      // [mlr][todo] numeric conversion!
+      return seed_type(n);
    }
 
    virtual ~basic_random()
    {}
 
+   void seed(seed_type seed_arg)
+   {
+      my_engine.seed(seed_arg);
+   }
+
+   seed_type seed() const
+   {
+      return my_engine.seed();
+   }
+
+   template < class Value, class Filter >
+   void pop(Value &result_arg, const Filter &filter_arg)
+   {
+      result_arg = filter_arg(my_engine);
+   }
+
+   template < class Value >
+   void pop(Value &result_arg)
+   {
+      details::pop_uniform_random(result_arg, my_engine);
+   }
+
+   template < class Value >
+   void pop(Value &result_arg, Value min_arg, Value max_arg)
+   {
+      details::pop_uniform_random(result_arg, my_engine, min_arg,
+            max_arg);
+   }
+
 private:
+
+   static void local(this_type *&result_arg)
+   {
+      result_arg = NULL;
+      this_type *p = our_tss.get();
+      if (NULL == p)
+         p = initialize_tss();
+      result_arg = p;
+   }
+
+   static void local(const this_type *&result_arg)
+   {
+      this_type *p;
+      local(p);
+      result_arg = p;
+   }
 
    static this_type * initialize_tss()
    {
@@ -119,9 +182,11 @@ private:
 
 };
 
-template <typename Value, class Distribution, class Engine >
-typename basic_random< Value, Distribution, Engine >::tss_type
-   basic_random< Value, Distribution, Engine >::our_tss;
+template < class Engine >
+typename basic_random< Engine >::tss_type
+   basic_random< Engine >::our_tss;
+
+typedef basic_random< boost::random::mt19937 > random;
 
 }// namespace nyan
 
